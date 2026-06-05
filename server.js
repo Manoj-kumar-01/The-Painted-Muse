@@ -4,11 +4,15 @@ const session = require('express-session');
 const { MongoStore } = require('connect-mongo');
 const path = require('path');
 const dotenv = require('dotenv');
+const http = require('http');
+const { Server } = require('socket.io');
 
 // Load environment variables
 dotenv.config();
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/paintedmuse';
 
@@ -26,7 +30,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Session configuration
-app.use(session({
+const sessionMiddleware = session({
     secret: process.env.SESSION_SECRET || 'default_fallback_secret',
     resave: false,
     saveUninitialized: false,
@@ -34,7 +38,12 @@ app.use(session({
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
-}));
+});
+app.use(sessionMiddleware);
+
+io.use((socket, next) => {
+    sessionMiddleware(socket.request, socket.request.res || {}, next);
+});
 
 // Make session available to all EJS templates
 app.use((req, res, next) => {
@@ -47,10 +56,12 @@ app.use((req, res, next) => {
 const indexRoutes = require('./routes/index');
 const authRoutes = require('./routes/auth');
 const adminApiRoutes = require('./routes/adminApi');
+const chatApiRoutes = require('./routes/chatApi');
 
 app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/api/admin', adminApiRoutes);
+app.use('/api/chat', chatApiRoutes);
 
 // Seed Default Admin Account
 const Admin = require('./models/Admin');
@@ -68,6 +79,42 @@ mongoose.connection.once('open', async () => {
     }
 });
 
+// Socket.IO Logic
+const Message = require('./models/Message');
+
+io.on('connection', (socket) => {
+    const session = socket.request.session;
+    if (session && session.user) {
+        socket.join(session.user.id);
+        
+        socket.on('sendMessage', async (data) => {
+            try {
+                const { receiverId, content } = data;
+                if (!receiverId || !content) return;
+                
+                const senderId = session.user.id;
+                const senderModel = session.userType === 'artist' ? 'Artist' : 'User';
+                const receiverModel = session.userType === 'artist' ? 'User' : 'Artist';
+
+                const msg = new Message({
+                    senderId,
+                    senderModel,
+                    receiverId,
+                    receiverModel,
+                    content
+                });
+                await msg.save();
+                
+                // Emit to receiver's room and sender's room
+                io.to(receiverId).emit('newMessage', msg);
+                socket.emit('newMessage', msg);
+            } catch (err) {
+                console.error('Socket message error:', err);
+            }
+        });
+    }
+});
+
 // Error handling middleware
 app.use((req, res, next) => {
     res.status(404).render('checkout-failure', {
@@ -75,6 +122,6 @@ app.use((req, res, next) => {
     }); // Repurposed for simple 404 for now
 });
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

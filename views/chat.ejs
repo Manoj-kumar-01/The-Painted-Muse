@@ -130,38 +130,8 @@ body {
             Never share your bank or card details in the chat. Use the booking button to pay securely.
           </div>
         </div>
-
-        <!-- User Message -->
-        <div class="flex justify-end">
-          <div class="message-bubble-user max-w-md p-4 rounded-2xl">
-            <p class="text-sm leading-relaxed">Namaste! I absolutely love your portfolio. I am looking to commission a 3x4 ft canvas for my living room with themes of nature and mythology. Are you available for a project like this?</p>
-            <span class="text-[10px] text-white/50 block mt-2 text-right">10:42 AM</span>
-          </div>
-        </div>
-
-        <!-- Artist Message -->
-        <div class="flex justify-start">
-          <div class="message-bubble-artist max-w-md p-4 rounded-2xl shadow-sm">
-            <p class="text-sm leading-relaxed">Namaste 🙏 Thank you for appreciating my work! Yes, a 3x4 ft canvas is a beautiful size for Madhubani. For nature and mythology, we could do a 'Tree of Life' motif mixed with Krishna-Leela. It usually takes me about 3 weeks to complete such intricate work using natural dyes.</p>
-            <span class="text-[10px] text-stone-400 block mt-2">11:05 AM</span>
-          </div>
-        </div>
-
-        <!-- User Message -->
-        <div class="flex justify-end">
-          <div class="message-bubble-user max-w-md p-4 rounded-2xl">
-            <p class="text-sm leading-relaxed">That sounds perfect! What would be the total cost for this project?</p>
-            <span class="text-[10px] text-white/50 block mt-2 text-right">11:15 AM</span>
-          </div>
-        </div>
         
-        <!-- Artist Message -->
-        <div class="flex justify-start">
-          <div class="message-bubble-artist max-w-md p-4 rounded-2xl shadow-sm">
-            <p class="text-sm leading-relaxed">For 12 sq ft, the total would be ₹1,80,000. You can initiate the booking through the portal to secure my dates for April!</p>
-            <span class="text-[10px] text-stone-400 block mt-2">11:20 AM</span>
-          </div>
-        </div>
+        <!-- Dynamic messages will be injected here -->
       </div>
 
       <!-- Chat Input -->
@@ -179,6 +149,7 @@ body {
   </div>
 </main>
 
+<script src="/socket.io/socket.io.js"></script>
 <script>
 // Parse URL parameters
 document.addEventListener('DOMContentLoaded', () => {
@@ -210,25 +181,56 @@ tx.addEventListener('keypress', function(e) {
   }
 });
 
-function sendMessage() {
-  const text = tx.value.trim();
-  if (!text) return;
-  
+// Dynamic Chat Integration
+const socket = io();
+const myId = "<%= user ? (user._id || user.id) : '' %>";
+const receiverId = urlParams.get('artistId') || urlParams.get('userId');
+
+socket.on('newMessage', (msg) => {
+  renderMessage(msg);
+});
+
+function renderMessage(msg) {
+  const isMe = msg.senderId === myId;
   const container = document.getElementById('messages-container');
   
   const msgHTML = `
-    <div class="flex justify-end animate-fade-in">
-      <div class="message-bubble-user max-w-md p-4 rounded-2xl">
-        <p class="text-sm leading-relaxed">${text.replace(/\\n/g, '<br>')}</p>
-        <span class="text-[10px] text-white/50 block mt-2 text-right">Just now</span>
+    <div class="flex justify-${isMe ? 'end' : 'start'} animate-fade-in mb-4">
+      <div class="${isMe ? 'message-bubble-user' : 'message-bubble-artist'} max-w-md p-4 rounded-2xl shadow-sm">
+        <p class="text-sm leading-relaxed">${msg.content.replace(/\n/g, '<br>')}</p>
       </div>
     </div>
   `;
   
   container.insertAdjacentHTML('beforeend', msgHTML);
+  container.scrollTop = container.scrollHeight;
+}
+
+if(receiverId) {
+  fetch('/api/chat/' + receiverId)
+    .then(res => res.json())
+    .then(data => {
+      if(data.success && data.messages.length > 0) {
+         document.getElementById('messages-container').innerHTML = ''; // clear initial content if any history exists
+         data.messages.forEach(renderMessage);
+      }
+    });
+}
+
+function sendMessage() {
+  const text = tx.value.trim();
+  if (!text || !receiverId) {
+    if (!receiverId) alert('No chat partner specified. Please select a user or artist to chat with.');
+    return;
+  }
+  
+  socket.emit('sendMessage', {
+    receiverId: receiverId,
+    content: text
+  });
+  
   tx.value = '';
   tx.style.height = 'auto';
-  container.scrollTop = container.scrollHeight;
 }
 
 function bookArtist() {
