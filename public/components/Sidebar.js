@@ -63,10 +63,7 @@ class DashboardSidebar extends HTMLElement {
           <span class="material-symbols-outlined">dashboard</span>
           <span class="text-sm font-medium">Gallery</span>
         </a>
-        <a href="dashboard-artists" class="sidebar-item ${isArtistUpload ? 'active' : ''} flex items-center gap-4 px-8 py-4 text-stone-600 hover:text-[#B5451B] transition-all">
-          <span class="material-symbols-outlined">cloud_upload</span>
-          <span class="text-sm font-medium">Upload Artwork</span>
-        </a>
+
         <a href="artist-home#portfolio" class="sidebar-item ${isArtistPortfolio ? 'active' : ''} flex items-center gap-4 px-8 py-4 text-stone-600 hover:text-[#B5451B] transition-all">
           <span class="material-symbols-outlined">account_circle</span>
           <span class="text-sm font-medium">Portfolio</span>
@@ -102,11 +99,11 @@ class DashboardSidebar extends HTMLElement {
           <span class="text-sm font-medium">Workshops</span>
         </a>
         <div class="px-8 mt-12 mb-4 text-[10px] uppercase tracking-[0.2em] text-stone-400 font-bold">Discovery</div>
-        <a href="index#living-map-section" class="sidebar-item flex items-center gap-4 px-8 py-4 text-stone-600 hover:text-[#B5451B] transition-all">
+        <a href="/#living-map-section" class="sidebar-item flex items-center gap-4 px-8 py-4 text-stone-600 hover:text-[#B5451B] transition-all">
           <span class="material-symbols-outlined">map</span>
           <span class="text-sm font-medium">Interactive Map</span>
         </a>
-        <a href="index#journal" class="sidebar-item flex items-center gap-4 px-8 py-4 text-stone-600 hover:text-[#B5451B] transition-all">
+        <a href="/#journal" class="sidebar-item flex items-center gap-4 px-8 py-4 text-stone-600 hover:text-[#B5451B] transition-all">
           <span class="material-symbols-outlined">auto_stories</span>
           <span class="text-sm font-medium">Heritage Journal</span>
         </a>
@@ -209,7 +206,7 @@ class DashboardSidebar extends HTMLElement {
       localStorage.removeItem('artistLoggedIn');
       localStorage.removeItem('artistEmail');
       localStorage.removeItem('currentUser');
-      window.location.href = 'signin';
+      window.location.href = '/signin';
     }
   }
 
@@ -218,7 +215,7 @@ class DashboardSidebar extends HTMLElement {
       localStorage.removeItem('userLoggedIn');
       localStorage.removeItem('userEmail');
       localStorage.removeItem('currentUser');
-      window.location.href = 'user-signin';
+      window.location.href = '/user-signin';
     }
   }
 }
