@@ -9,7 +9,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/paintedmuse';
 
 // Database connection

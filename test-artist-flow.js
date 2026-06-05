@@ -9,7 +9,7 @@ async function runTest() {
     try {
         // 1. Register Artist
         console.log("1. Registering new artist...");
-        const signupRes = await fetch('http://localhost:3000/auth/artist-signup', {
+        const signupRes = await fetch(`http://localhost:${process.env.PORT}/auth/artist-signup`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -26,7 +26,7 @@ async function runTest() {
 
         // 2. Admin Login
         console.log("2. Logging in as Admin...");
-        const loginRes = await fetch('http://localhost:3000/api/admin/login', {
+        const loginRes = await fetch(`http://localhost:${process.env.PORT}/api/admin/login`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ password: process.env.ADMIN_PASSWORD })
@@ -38,7 +38,7 @@ async function runTest() {
 
         // 3. Fetch Pending Artists
         console.log("3. Fetching pending artists...");
-        const getRes = await fetch('http://localhost:3000/api/admin/artists?status=PENDING', {
+        const getRes = await fetch(`http://localhost:${process.env.PORT}/api/admin/artists?status=PENDING`, {
             headers: { 'Cookie': cookie }
         });
         const getData = await getRes.json();
@@ -50,7 +50,7 @@ async function runTest() {
 
         // 4. Approve Artist
         console.log("4. Approving artist...");
-        const approveRes = await fetch(`http://localhost:3000/api/admin/artists/${artist._id}/status`, {
+        const approveRes = await fetch(`http://localhost:${process.env.PORT}/api/admin/artists/${artist._id}/status`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json', 'Cookie': cookie },
             body: JSON.stringify({ status: 'APPROVED' })
@@ -61,7 +61,7 @@ async function runTest() {
 
         // 5. Verify Approval
         console.log("5. Verifying artist status...");
-        const verifyRes = await fetch('http://localhost:3000/api/admin/artists?status=APPROVED', {
+        const verifyRes = await fetch(`http://localhost:${process.env.PORT}/api/admin/artists?status=APPROVED`, {
             headers: { 'Cookie': cookie }
         });
         const verifyData = await verifyRes.json();
