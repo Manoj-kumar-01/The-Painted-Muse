@@ -199,51 +199,8 @@ Discover upcoming creative gatherings and explore glimpses into our past immersi
 </p>
 </div>
 
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-<!-- Event 1 (Available) -->
-<div class="glass p-4 rounded-3xl group hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-2xl reveal border-2 border-[#D4AF37]/30">
-<div class="relative h-64 rounded-2xl overflow-hidden mb-6">
-<img src="https://images.unsplash.com/photo-1578309718420-13e6d18bebc7?auto=format&fit=crop&q=80&w=800" alt="Canvas Masterclass" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-<div class="absolute top-4 right-4 bg-[#1A1208] px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] shadow-lg border border-[#D4AF37]/50 animate-pulse">Open For Booking</div>
-</div>
-<div class="px-3 pb-3">
-<span class="text-[10px] font-bold text-green-700 uppercase tracking-widest block mb-2">Upcoming: Aug 12-15, 2026 • Jaipur</span>
-<h3 class="text-2xl serif mb-3 text-[#1A1208]">Mithila Canvas Masterclass</h3>
-<p class="text-stone-600 text-sm leading-relaxed mb-6">A 4-day intensive workshop exploring the intricate natural dyes and sacred motifs of traditional Madhubani painting alongside master artisans. Includes stay and meals.</p>
-<button onclick="bookEvent(18000, 'Mithila Canvas Masterclass')" class="w-full bg-[#1A1208] text-white py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B5451B] transition-colors flex items-center justify-center gap-2 shadow-md">Book Now — ₹18,000 <span class="material-symbols-outlined text-sm">confirmation_number</span></button>
-</div>
-</div>
-
-<!-- Event 2 -->
-<div class="glass p-4 rounded-3xl group hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-2xl reveal" style="transition-delay: 100ms;">
-<div class="relative h-64 rounded-2xl overflow-hidden mb-6">
-<img src="https://images.unsplash.com/photo-1610701596007-11502861dcfa?auto=format&fit=crop&q=80&w=800" alt="Pottery Retreat" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#B5451B] shadow-sm">Completed</div>
-</div>
-<div class="px-3 pb-3">
-<span class="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest block mb-2">January 2026 • Dharamshala</span>
-<h3 class="text-2xl serif mb-3 text-[#1A1208]">Himalayan Earth & Clay</h3>
-<p class="text-stone-600 text-sm leading-relaxed mb-6">An immersive week-long pottery and wellness retreat guided by ceramicists in the Dhauladhar foothills, merging mindfulness with craft.</p>
-<a href="#" class="text-[#B5451B] text-[10px] font-bold uppercase tracking-widest hover:text-black transition-colors flex items-center gap-1.5">View Event Gallery <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
-</div>
-</div>
-
-<!-- Event 3 -->
-<div class="glass p-4 rounded-3xl group hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-2xl reveal" style="transition-delay: 200ms;">
-<div class="relative h-64 rounded-2xl overflow-hidden mb-6">
-<img src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?auto=format&fit=crop&q=80&w=800" alt="Heritage Residency" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-<div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#B5451B] shadow-sm">Completed</div>
-</div>
-<div class="px-3 pb-3">
-<span class="text-[10px] font-bold text-[#D4AF37] uppercase tracking-widest block mb-2">November 2025 • Odisha</span>
-<h3 class="text-2xl serif mb-3 text-[#1A1208]">Pattachitra Heritage Residency</h3>
-<p class="text-stone-600 text-sm leading-relaxed mb-6">Living and learning alongside the generational artists of Raghurajpur heritage village for 14 days of intensive palm-leaf engraving.</p>
-<a href="#" class="text-[#B5451B] text-[10px] font-bold uppercase tracking-widest hover:text-black transition-colors flex items-center gap-1.5">View Event Gallery <span class="material-symbols-outlined text-sm">arrow_forward</span></a>
-</div>
-</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="retreats-workshops-container">
+<!-- Injected dynamically via JS -->
 </div>
 </div>
 </section>
@@ -549,6 +506,55 @@ entry.target.classList.add('active');
 });
 }, observerOptions);
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+async function loadRetreatWorkshops() {
+    try {
+        const res = await fetch('/api/workshops');
+        const data = await res.json();
+        if (data.success && data.workshops) {
+            const container = document.getElementById('retreats-workshops-container');
+            if (data.workshops.length === 0) {
+                container.innerHTML = '<p class="col-span-3 text-center text-stone-500 italic mt-8">No workshops currently available. Check back soon!</p>';
+                return;
+            }
+            container.innerHTML = data.workshops.map((ws, idx) => {
+                const delay = idx * 100;
+                let btnHtml = '';
+                let statusBadge = '';
+                
+                if (ws.seatsAvailable.toLowerCase().includes('sold out') || ws.status === 'Completed') {
+                    statusBadge = `<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#B5451B] shadow-sm">Completed</div>`;
+                    btnHtml = `<button class="w-full bg-stone-200 text-stone-500 py-3 rounded-xl text-xs font-bold uppercase tracking-widest cursor-not-allowed">Sold Out</button>`;
+                } else {
+                    statusBadge = `<div class="absolute top-4 right-4 bg-[#1A1208] px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest text-[#D4AF37] shadow-lg border border-[#D4AF37]/50 animate-pulse">Open For Booking</div>`;
+                    btnHtml = `<button onclick="bookEvent(${ws.price}, '${ws.title.replace(/'/g, "\\'")}')" class="w-full bg-[#1A1208] text-white py-3 rounded-xl text-xs font-bold uppercase tracking-widest hover:bg-[#B5451B] transition-colors flex items-center justify-center gap-2 shadow-md">Book Now — ₹${ws.price} <span class="material-symbols-outlined text-sm">confirmation_number</span></button>`;
+                }
+
+                return `
+                <div class="glass p-4 rounded-3xl group hover:-translate-y-2 transition-all duration-500 shadow-lg hover:shadow-2xl reveal border-2 border-[#D4AF37]/30" style="transition-delay: ${delay}ms;">
+                <div class="relative h-64 rounded-2xl overflow-hidden mb-6">
+                <img src="${ws.imageUrl}" alt="${ws.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                ${statusBadge}
+                </div>
+                <div class="px-3 pb-3">
+                <span class="text-[10px] font-bold text-green-700 uppercase tracking-widest block mb-2">${ws.startDate} • ${ws.location}</span>
+                <h3 class="text-2xl serif mb-3 text-[#1A1208] truncate" title="${ws.title}">${ws.title}</h3>
+                <p class="text-stone-600 text-sm leading-relaxed mb-6 line-clamp-3">${ws.description}</p>
+                ${btnHtml}
+                </div>
+                </div>
+                `;
+            }).join('');
+            
+            // Re-bind observer for newly added reveal elements
+            document.querySelectorAll('#retreats-workshops-container .reveal').forEach(el => observer.observe(el));
+        }
+    } catch (e) {
+        console.error('Failed to load workshops', e);
+    }
+}
+document.addEventListener('DOMContentLoaded', loadRetreatWorkshops);
 </script>
 <script src="content-loader.js"></script>
 </body>

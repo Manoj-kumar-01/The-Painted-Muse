@@ -249,7 +249,7 @@ class="w-full pl-10 pr-4 py-2 bg-stone-100 border-none rounded-lg text-sm focus:
 <span class="material-symbols-outlined">notifications</span>
 <span class="absolute -top-1 -right-1 w-2 h-2 bg-[#B5451B] rounded-full"></span>
 </button>
-<button onclick="window.location.href='/payment?item=Custom%20Commission&price=5000'"
+<button onclick="window.location.href='/artists'"
 class="font-sans text-[10px] font-bold uppercase tracking-widest bg-[#B5451B] text-white px-4 py-2 rounded shadow-lg hover:bg-[#D4AF37] transition-all">Book
 Artist</button>
 </div>
@@ -330,76 +330,9 @@ class="w-10 h-10 border border-stone-200 rounded-full flex items-center justify-
 </button>
 </div>
 </div>
-<div class="flex gap-8 overflow-x-auto no-scrollbar pb-4">
-<div
-class="min-w-[350px] bg-white rounded-2xl overflow-hidden border border-stone-100 shadow-lg hover:shadow-xl transition-all group">
-<div class="h-48 overflow-hidden relative">
-<img src="pics/workshop_preview.png"
-class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
-alt="Workshop">
-<div
-class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded text-[10px] font-bold text-[#B5451B] uppercase tracking-widest">
-Starting May 15</div>
-</div>
-<div class="p-6">
-<h4 class="text-lg font-serif mb-2">Mithila Magic: Beginners Course</h4>
-<div class="flex items-center gap-4 text-stone-500 text-xs mb-4">
-<span class="flex items-center gap-1"><span
-class="material-symbols-outlined text-sm">schedule</span> 4 Weeks</span>
-<span class="flex items-center gap-1"><span
-class="material-symbols-outlined text-sm">groups</span> 12 Seats Left</span>
-</div>
-<button onclick="window.location.href='/payment?item=Mithila%20Magic%3A%20Beginners%20Course&price=2500'"
-class="w-full py-3 border border-[#D4AF37] text-[#D4AF37] text-[10px] font-bold uppercase tracking-widest rounded hover:bg-[#D4AF37] hover:text-white transition-all">Register
-Now</button>
-</div>
-</div>
-<div
-class="min-w-[350px] bg-white rounded-2xl overflow-hidden border border-stone-100 shadow-lg hover:shadow-xl transition-all group">
-<div class="h-48 overflow-hidden relative">
-<img src="pics/warli_pattern_1778230295803.png"
-class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
-alt="Workshop">
-<div
-class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded text-[10px] font-bold text-[#B5451B] uppercase tracking-widest">
-Starting May 20</div>
-</div>
-<div class="p-6">
-<h4 class="text-lg font-serif mb-2">Warli Tales: Tribal Storytelling</h4>
-<div class="flex items-center gap-4 text-stone-500 text-xs mb-4">
-<span class="flex items-center gap-1"><span
-class="material-symbols-outlined text-sm">schedule</span> 2 Days</span>
-<span class="flex items-center gap-1"><span
-class="material-symbols-outlined text-sm">groups</span> 5 Seats Left</span>
-</div>
-<button onclick="window.location.href='/payment?item=Warli%20Tales%3A%20Tribal%20Storytelling&price=1800'"
-class="w-full py-3 border border-[#D4AF37] text-[#D4AF37] text-[10px] font-bold uppercase tracking-widest rounded hover:bg-[#D4AF37] hover:text-white transition-all">Register
-Now</button>
-</div>
-</div>
-<div
-class="min-w-[350px] bg-white rounded-2xl overflow-hidden border border-stone-100 shadow-lg hover:shadow-xl transition-all group">
-<div class="h-48 overflow-hidden relative">
-<img src="pics/kalamkari_pattern_1778230370773.png"
-class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
-alt="Workshop">
-<div
-class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded text-[10px] font-bold text-[#B5451B] uppercase tracking-widest">
-Starting June 02</div>
-</div>
-<div class="p-6">
-<h4 class="text-lg font-serif mb-2">Kalamkari Pen Art Masterclass</h4>
-<div class="flex items-center gap-4 text-stone-500 text-xs mb-4">
-<span class="flex items-center gap-1"><span
-class="material-symbols-outlined text-sm">schedule</span> 3 Weeks</span>
-<span class="flex items-center gap-1"><span
-class="material-symbols-outlined text-sm">groups</span> Sold Out</span>
-</div>
-<button
-class="w-full py-3 border border-stone-300 text-stone-400 text-[10px] font-bold uppercase tracking-widest rounded cursor-not-allowed">Join
-Waitlist</button>
-</div>
-</div>
+
+<div id="dynamic-workshops-container" class="flex gap-8 overflow-x-auto no-scrollbar pb-4">
+<!-- Workshops will be injected here via JS -->
 </div>
 </section>
 </div>
@@ -408,6 +341,54 @@ Waitlist</button>
 </div>
 <script>
 let allApprovedArtists = [];
+
+async function fetchWorkshops() {
+    try {
+        const res = await fetch('/api/workshops');
+        const data = await res.json();
+        if (data.success) {
+            renderWorkshops(data.workshops);
+        }
+    } catch (e) {
+        console.error('Failed to fetch workshops', e);
+    }
+}
+
+function renderWorkshops(workshops) {
+    const container = document.getElementById('dynamic-workshops-container');
+    if (!container) return;
+    
+    if (workshops.length === 0) {
+        container.innerHTML = '<p class="text-stone-500 italic text-sm">No immersive workshops available at the moment.</p>';
+        return;
+    }
+    
+    container.innerHTML = workshops.map(ws => {
+        let btnHtml = '';
+        if (ws.seatsAvailable.toLowerCase().includes('sold out')) {
+            btnHtml = `<button class="w-full py-3 border border-stone-300 text-stone-400 text-[10px] font-bold uppercase tracking-widest rounded cursor-not-allowed">Join Waitlist</button>`;
+        } else {
+            btnHtml = `<button onclick="window.location.href='/payment?item=${encodeURIComponent(ws.title)}&price=${ws.price}'" class="w-full py-3 border border-[#D4AF37] text-[#D4AF37] text-[10px] font-bold uppercase tracking-widest rounded hover:bg-[#D4AF37] hover:text-white transition-all">Register Now (₹${ws.price})</button>`;
+        }
+        
+        return `
+        <div class="min-w-[350px] max-w-[350px] bg-white rounded-2xl overflow-hidden border border-stone-100 shadow-lg hover:shadow-xl transition-all group">
+            <div class="h-48 overflow-hidden relative">
+                <img src="${ws.imageUrl}" class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700" alt="Workshop">
+                <div class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded text-[10px] font-bold text-[#B5451B] uppercase tracking-widest">${ws.startDate}</div>
+            </div>
+            <div class="p-6">
+                <h4 class="text-lg font-serif mb-2 truncate" title="${ws.title}">${ws.title}</h4>
+                <div class="flex items-center gap-4 text-stone-500 text-xs mb-4">
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span> ${ws.duration}</span>
+                    <span class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">groups</span> ${ws.seatsAvailable}</span>
+                </div>
+                ${btnHtml}
+            </div>
+        </div>
+        `;
+    }).join('');
+}
 
 async function fetchArtists() {
     try {
@@ -428,6 +409,7 @@ const text = document.getElementById('location-text');
 btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Accessing...';
 
 await fetchArtists();
+await fetchWorkshops();
 
 if (navigator.geolocation) {
 navigator.geolocation.getCurrentPosition(

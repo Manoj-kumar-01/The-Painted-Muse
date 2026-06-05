@@ -116,10 +116,7 @@ class DashboardSidebar extends HTMLElement {
     const htmlContent = `
       <!-- Desktop Sidebar -->
       <aside class="w-64 glass-panel border-r border-stone-200 hidden lg:flex flex-col z-50 shrink-0">
-        <div class="p-8 border-b border-stone-100 flex items-center gap-3">
-          <img src="pics/logoo.png" alt="Logo" class="h-10 w-auto object-contain" />
-          <a href="index" class="font-serif italic font-bold text-sm tracking-tight text-[#1A1208]">The Painted Muse</a>
-        </div>
+        <div class="pt-6"></div>
         <nav class="flex-1 py-8 overflow-y-auto no-scrollbar">
           ${menuHtml}
         </nav>
@@ -144,11 +141,7 @@ class DashboardSidebar extends HTMLElement {
       <!-- Mobile Menu Sidebar Overlay -->
       <div id="mobile-sidebar-drawer" class="fixed inset-0 z-[100] bg-black/40 hidden lg:hidden">
         <div class="w-64 bg-[#FDFBF7] h-full flex flex-col relative shadow-2xl animate-slide-in">
-          <div class="p-6 border-b border-stone-100 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-              <img src="pics/logoo.png" alt="Logo" class="h-10 w-auto object-contain" />
-              <span class="font-serif italic font-bold text-xs">The Painted Muse</span>
-            </div>
+          <div class="p-4 flex justify-end items-center">
             <button id="close-mobile-sidebar-btn" class="text-stone-900 p-1">
               <span class="material-symbols-outlined text-2xl">close</span>
             </button>

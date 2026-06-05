@@ -30,9 +30,10 @@ const artistSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    isApproved: {
-        type: Boolean,
-        default: false
+    status: {
+        type: String,
+        enum: ['PENDING', 'APPROVED', 'REJECTED'],
+        default: 'PENDING'
     }
 }, { timestamps: true });
 

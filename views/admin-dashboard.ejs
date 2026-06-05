@@ -208,6 +208,10 @@ Invalid administrator password.
 <i data-lucide="indian-rupee" class="nav-icon w-5 h-5 flex-shrink-0"></i>
 <span class="hide-on-collapse whitespace-nowrap">Payments</span>
 </button>
+<button onclick="switchView('workshops')" class="nav-item w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-smooth relative group text-ink-muted hover:text-ink hover:bg-cream border border-transparent">
+<i data-lucide="calendar" class="nav-icon w-5 h-5 flex-shrink-0"></i>
+<span class="hide-on-collapse whitespace-nowrap">Workshops</span>
+</button>
 <button onclick="switchView('settings')" class="nav-item w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium transition-smooth relative group text-ink-muted hover:text-ink hover:bg-cream border border-transparent">
 <i data-lucide="settings" class="nav-icon w-5 h-5 flex-shrink-0"></i>
 <span class="hide-on-collapse whitespace-nowrap">Settings</span>
@@ -864,6 +868,68 @@ alert("Please select an image file first.");
 <i data-lucide="check-circle" class="w-5 h-5"></i> <span id="cms-toast-text">Changes saved & applied!</span>
 </div>
 
+
+<div id="view-workshops" class="view-section space-y-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div>
+<h1 class="text-3xl font-serif font-bold text-ink flex items-center gap-3">
+<i data-lucide="calendar" class="w-7 h-7 text-saffron-dark"></i> Workshop Management
+</h1>
+<p class="text-ink-muted text-sm mt-1">Manage art retreats, events, and immersive workshops</p>
+</div>
+<button onclick="toggleAddWorkshopForm()" class="whitespace-nowrap px-4 py-2 bg-ink hover:bg-[#B5451B] text-[#FDFBF7] font-semibold text-sm rounded-xl transition-smooth flex items-center gap-1.5 shadow-soft">
+<i data-lucide="plus" class="w-4 h-4"></i> Add Workshop
+</button>
+</div>
+
+<!-- Add Workshop Form -->
+<div id="add-workshop-form-container" class="hidden bg-bg border border-ink/10 rounded-2xl p-6 shadow-medium transition-smooth">
+<h3 class="text-lg font-serif font-bold text-ink mb-4 flex items-center gap-2">
+<i data-lucide="calendar-plus" class="w-5 h-5 text-saffron-dark"></i> Add New Workshop
+</h3>
+<form id="add-workshop-form" onsubmit="saveNewWorkshop(event)" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-ink-muted uppercase tracking-wider">Title</label>
+<input type="text" id="new-ws-title" placeholder="e.g. Mithila Canvas Masterclass" required class="bg-bg border border-ink/20 rounded-xl px-3 py-2 text-sm focus:border-saffron-dark focus:ring-1 focus:ring-saffron-dark" />
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-ink-muted uppercase tracking-wider">Location</label>
+<input type="text" id="new-ws-location" placeholder="e.g. Jaipur" required class="bg-bg border border-ink/20 rounded-xl px-3 py-2 text-sm focus:border-saffron-dark focus:ring-1 focus:ring-saffron-dark" />
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-ink-muted uppercase tracking-wider">Price (₹)</label>
+<input type="number" id="new-ws-price" placeholder="e.g. 18000" required class="bg-bg border border-ink/20 rounded-xl px-3 py-2 text-sm focus:border-saffron-dark focus:ring-1 focus:ring-saffron-dark" />
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-ink-muted uppercase tracking-wider">Start Date</label>
+<input type="text" id="new-ws-date" placeholder="e.g. Aug 12-15, 2026" required class="bg-bg border border-ink/20 rounded-xl px-3 py-2 text-sm focus:border-saffron-dark focus:ring-1 focus:ring-saffron-dark" />
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-ink-muted uppercase tracking-wider">Duration</label>
+<input type="text" id="new-ws-duration" placeholder="e.g. 4 Days" required class="bg-bg border border-ink/20 rounded-xl px-3 py-2 text-sm focus:border-saffron-dark focus:ring-1 focus:ring-saffron-dark" />
+</div>
+<div class="flex flex-col gap-1">
+<label class="text-xs font-semibold text-ink-muted uppercase tracking-wider">Seats Available</label>
+<input type="text" id="new-ws-seats" placeholder="e.g. 12 Seats Left" required class="bg-bg border border-ink/20 rounded-xl px-3 py-2 text-sm focus:border-saffron-dark focus:ring-1 focus:ring-saffron-dark" />
+</div>
+<div class="flex flex-col gap-1 lg:col-span-3">
+<label class="text-xs font-semibold text-ink-muted uppercase tracking-wider">Image URL</label>
+<input type="text" id="new-ws-img" placeholder="e.g. https://images.unsplash.com/..." required class="bg-bg border border-ink/20 rounded-xl px-3 py-2 text-sm focus:border-saffron-dark focus:ring-1 focus:ring-saffron-dark" />
+</div>
+<div class="flex flex-col gap-1 lg:col-span-3">
+<label class="text-xs font-semibold text-ink-muted uppercase tracking-wider">Description</label>
+<textarea id="new-ws-desc" rows="3" required class="bg-bg border border-ink/20 rounded-xl px-3 py-2 text-sm focus:border-saffron-dark focus:ring-1 focus:ring-saffron-dark"></textarea>
+</div>
+<div class="lg:col-span-3 flex justify-end gap-2 mt-2">
+<button type="button" onclick="toggleAddWorkshopForm()" class="px-4 py-2 border border-ink/20 text-ink-muted rounded-xl hover:bg-cream/50 transition-smooth text-sm font-semibold">Cancel</button>
+<button type="submit" class="px-5 py-2 bg-ink text-white hover:bg-saffron-dark rounded-xl transition-smooth text-sm font-semibold">Save Workshop</button>
+</div>
+</form>
+</div>
+<div class="space-y-3" id="workshop-list-container">
+</div>
+</div>
+
 </main>
 </div>
 <script>
@@ -1007,610 +1073,456 @@ document.getElementById('view-' + viewId).classList.add('active');
 }
 
 let currentFilter = 'ALL';
+let adminArtists = [];
+let adminUsers = [];
+
 function initDashboardData() {
+    const dateOptions = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+    document.getElementById('current-date').textContent = "Platform-wide overview • " + new Date().toLocaleDateString("en-IN", dateOptions);
+    
+    const searchInput = document.getElementById('artist-search-input');
+    if (searchInput && !searchInput.dataset.bound) {
+        searchInput.dataset.bound = "true";
+        searchInput.addEventListener('keyup', () => {
+            renderArtists(currentFilter, searchInput.value);
+        });
+    }
 
-const dateOptions = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
-document.getElementById('current-date').textContent = "Platform-wide overview • " + new Date().toLocaleDateString("en-IN", dateOptions);
-const initialArtists = [
-{ id: "ART-9281", name: "Sita Devi", email: "sita@example.com", spec: "mithila", status: "APPROVED", exp: "20 yrs exp", state: "Bihar", joined: "May 19, 2026" },
-{ id: "ART-9282", name: "Ravi Varma", email: "ravi@example.com", spec: "pattachitra", status: "PENDING", exp: "15 yrs exp", state: "Odisha", joined: "May 18, 2026" },
-{ id: "ART-9283", name: "Jivya Soma Mashe", email: "jivya@example.com", spec: "warli", status: "APPROVED", exp: "30 yrs exp", state: "Maharashtra", joined: "May 15, 2026" },
-{ id: "ART-9284", name: "Anjali Pichai", email: "anjali@example.com", spec: "tanjore", status: "APPROVED", exp: "12 yrs exp", state: "Tamil Nadu", joined: "May 12, 2026" }
-];
-const initialUsers = [
-{ name: "Ananya Sharma", email: "ananya@example.com", joined: "May 19, 2026" },
-{ name: "Vikram Singh", email: "vikram@example.com", joined: "May 18, 2026" },
-{ name: "Sathwik Manoj", email: "sathwik@example.com", joined: "May 15, 2026" }
-];
-let adminArtists = JSON.parse(localStorage.getItem('admin_artists'));
-if (!adminArtists || !Array.isArray(adminArtists)) {
-adminArtists = initialArtists;
-}
-adminArtists = adminArtists.map(a => {
-  if (a.specialization && !a.spec) a.spec = a.specialization;
-  if (a.spec && !a.specialization) a.specialization = a.spec;
-  if (a.joinedDate && !a.joined) a.joined = a.joinedDate;
-  if (a.joined && !a.joinedDate) a.joinedDate = a.joined;
-  if (!a.id) a.id = "ART-" + Math.floor(1000 + Math.random() * 9000);
-  if (!a.status) a.status = "PENDING";
-  if (!a.exp) a.exp = "1 yr exp";
-  if (!a.state) a.state = "India";
-  return a;
-});
-try { localStorage.setItem('admin_artists', JSON.stringify(adminArtists)); } catch(e) {}
-
-let adminUsers = JSON.parse(localStorage.getItem('admin_users'));
-if (!adminUsers || !Array.isArray(adminUsers)) {
-adminUsers = initialUsers;
-}
-adminUsers = adminUsers.map(u => {
-  if (u.joinedDate && !u.joined) u.joined = u.joinedDate;
-  return u;
-});
-try { localStorage.setItem('admin_users', JSON.stringify(adminUsers)); } catch(e) {}
-
-let users = JSON.parse(localStorage.getItem('users') || '{}');
-let updated = false;
-for (let email in users) {
-
-if (!adminArtists.some(a => a.email === email)) {
-const u = users[email];
-const id = "ART-" + Math.floor(1000 + Math.random() * 9000);
-adminArtists.push({
-id: id,
-name: u.fullName,
-email: email,
-spec: u.spec || "mithila",
-status: u.isApproved ? "APPROVED" : (u.isRejected ? "REJECTED" : "PENDING"),
-exp: "1 yr exp",
-state: "India",
-joined: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-});
-updated = true;
+    refreshDashboard();
 }
 
-if (!adminUsers.some(usr => usr.email === email)) {
-const u = users[email];
-adminUsers.push({
-name: u.fullName,
-email: email,
-joined: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-});
-updated = true;
-}
-}
-if (updated) {
-try {
-localStorage.setItem('admin_artists', JSON.stringify(adminArtists));
-localStorage.setItem('admin_users', JSON.stringify(adminUsers));
-} catch(e) {}
-}
-
-const searchInput = document.getElementById('artist-search-input');
-if (searchInput) {
-
-const newSearchInput = searchInput.cloneNode(true);
-searchInput.parentNode.replaceChild(newSearchInput, searchInput);
-newSearchInput.addEventListener('keyup', () => {
-renderArtists(currentFilter, newSearchInput.value);
-});
-}
-
-refreshDashboard();
-}
 function refreshDashboard() {
-renderStats();
-renderArtists(currentFilter);
-renderUsers();
-renderRecentActivity();
-lucide.createIcons();
+    Promise.all([
+        fetch('/api/admin/stats').then(r => r.json()),
+        fetch('/api/admin/artists').then(r => r.json()),
+        fetch('/api/admin/users').then(r => r.json())
+    ]).then(([statsData, artistsData, usersData]) => {
+        if(artistsData.success) {
+            adminArtists = artistsData.artists.map(a => ({
+                id: a._id,
+                name: a.fullName,
+                email: a.email,
+                spec: a.specialization || 'Mithila (Madhubani)',
+                status: a.status || 'PENDING',
+                exp: a.experience || 'New Artist',
+                state: a.location || 'India',
+                joined: new Date(a.createdAt).toLocaleDateString()
+            }));
+        }
+        if(usersData.success) {
+            adminUsers = usersData.users.map(u => ({
+                name: u.fullName,
+                email: u.email,
+                joined: new Date(u.createdAt).toLocaleDateString()
+            }));
+        }
+        
+        renderStats(statsData.success ? statsData : null);
+        renderArtists(currentFilter, document.getElementById('artist-search-input') ? document.getElementById('artist-search-input').value : '');
+        renderUsers();
+        renderRecentActivity();
+        lucide.createIcons();
+    }).catch(e => console.error(e));
 }
-function renderStats() {
-const adminArtists = JSON.parse(localStorage.getItem('admin_artists') || '[]');
-const adminUsers = JSON.parse(localStorage.getItem('admin_users') || '[]');
-const totalArtists = adminArtists.length;
-const pendingCount = adminArtists.filter(a => a.status === 'PENDING').length;
-const approvedCount = adminArtists.filter(a => a.status === 'APPROVED').length;
-const rejectedCount = adminArtists.filter(a => a.status === 'REJECTED').length;
-const totalUsers = adminUsers.length;
 
-document.getElementById('stat-total-artists').textContent = totalArtists;
-document.getElementById('stat-total-users').textContent = totalUsers;
-document.getElementById('stat-pending-approvals').textContent = pendingCount;
-document.getElementById('stat-verified-artists').textContent = approvedCount;
+function renderStats(statsData) {
+    if(!statsData) return;
+    const totalArtists = statsData.totalArtists || 0;
+    const pendingCount = statsData.pendingApprovals || 0;
+    const approvedCount = statsData.verifiedArtists || 0;
+    const rejectedCount = adminArtists.filter(a => a.status === 'REJECTED').length;
+    const totalUsers = statsData.totalUsers || 0;
 
-document.getElementById('filter-count-all').textContent = totalArtists;
-document.getElementById('filter-count-pending').textContent = pendingCount;
-document.getElementById('filter-count-approved').textContent = approvedCount;
-document.getElementById('filter-count-rejected').textContent = rejectedCount;
+    document.getElementById('stat-total-artists').textContent = totalArtists;
+    document.getElementById('stat-total-users').textContent = totalUsers;
+    document.getElementById('stat-pending-approvals').textContent = pendingCount;
+    document.getElementById('stat-verified-artists').textContent = approvedCount;
 
-const sidebarBadge = document.getElementById('sidebar-pending-badge');
-if (sidebarBadge) {
-if (pendingCount > 0) {
-sidebarBadge.textContent = pendingCount;
-sidebarBadge.classList.remove('hidden');
-} else {
-sidebarBadge.classList.add('hidden');
+    document.getElementById('filter-count-all').textContent = totalArtists;
+    document.getElementById('filter-count-pending').textContent = pendingCount;
+    document.getElementById('filter-count-approved').textContent = approvedCount;
+    document.getElementById('filter-count-rejected').textContent = rejectedCount;
+
+    const sidebarBadge = document.getElementById('sidebar-pending-badge');
+    if (sidebarBadge) {
+        if (pendingCount > 0) {
+            sidebarBadge.textContent = pendingCount;
+            sidebarBadge.classList.remove('hidden');
+        } else {
+            sidebarBadge.classList.add('hidden');
+        }
+    }
 }
-}
-}
+
 function filterArtists(filter) {
-currentFilter = filter;
+    currentFilter = filter;
+    document.querySelectorAll('#artist-filter-buttons button').forEach(btn => {
+        btn.classList.remove('bg-saffron-light/50', 'text-saffron-dark', 'border-saffron-dark/20');
+        btn.classList.add('text-ink-muted', 'hover:text-ink', 'hover:bg-cream', 'border-transparent');
+    });
+    const activeBtn = window.event ? (window.event.currentTarget || document.querySelector(`#artist-filter-buttons button[onclick="filterArtists('${filter}')"]`)) : document.querySelector(`#artist-filter-buttons button[onclick="filterArtists('${filter}')"]`);
+    if (activeBtn) {
+        activeBtn.classList.add('bg-saffron-light/50', 'text-saffron-dark', 'border-saffron-dark/20');
+        activeBtn.classList.remove('text-ink-muted', 'hover:text-ink', 'hover:bg-cream', 'border-transparent');
+    }
+    const searchInput = document.getElementById('artist-search-input');
+    renderArtists(filter, searchInput ? searchInput.value : '');
+}
 
-document.querySelectorAll('#artist-filter-buttons button').forEach(btn => {
-btn.classList.remove('bg-saffron-light/50', 'text-saffron-dark', 'border-saffron-dark/20');
-btn.classList.add('text-ink-muted', 'hover:text-ink', 'hover:bg-cream', 'border-transparent');
-});
-const activeBtn = window.event ? (window.event.currentTarget || document.querySelector(`#artist-filter-buttons button[onclick="filterArtists('${filter}')"]`)) : document.querySelector(`#artist-filter-buttons button[onclick="filterArtists('${filter}')"]`);
-if (activeBtn) {
-activeBtn.classList.add('bg-saffron-light/50', 'text-saffron-dark', 'border-saffron-dark/20');
-activeBtn.classList.remove('text-ink-muted', 'hover:text-ink', 'hover:bg-cream', 'border-transparent');
-}
-const searchInput = document.getElementById('artist-search-input');
-renderArtists(filter, searchInput ? searchInput.value : '');
-}
 const artSpecNames = {
-tanjore: "Tanjore Painting",
-mithila: "Mithila (Madhubani)",
-warli: "Warli Art",
-pattachitra: "Pattachitra"
+    tanjore: "Tanjore Painting",
+    mithila: "Mithila (Madhubani)",
+    warli: "Warli Art",
+    pattachitra: "Pattachitra"
 };
+
 function getSpecDisplayName(spec) {
-if (!spec) return "Mithila (Madhubani)";
-return artSpecNames[spec.toLowerCase()] || spec;
+    if (!spec) return "Mithila (Madhubani)";
+    return artSpecNames[spec.toLowerCase()] || spec;
 }
+
 function renderArtists(filter, query = '') {
-let adminArtists = JSON.parse(localStorage.getItem('admin_artists') || '[]');
-if (!Array.isArray(adminArtists)) adminArtists = [];
-const container = document.getElementById('artist-list-container');
-if (!container) return;
-container.innerHTML = '';
-let filtered = adminArtists;
-if (filter !== 'ALL') {
-filtered = filtered.filter(a => a.status === filter);
+    const container = document.getElementById('artist-list-container');
+    if (!container) return;
+    container.innerHTML = '';
+    
+    let filtered = adminArtists;
+    if (filter !== 'ALL') {
+        filtered = filtered.filter(a => a.status === filter);
+    }
+    
+    if (query.trim()) {
+        const q = query.toLowerCase();
+        filtered = filtered.filter(a => {
+            const nameVal = a.name || '';
+            const specVal = a.spec || a.specialization || '';
+            return nameVal.toLowerCase().includes(q) ||
+                   specVal.toLowerCase().includes(q) ||
+                   getSpecDisplayName(specVal).toLowerCase().includes(q);
+        });
+    }
+    
+    if (filtered.length === 0) {
+        container.innerHTML = `
+        <div class="bg-bg rounded-2xl border border-ink/10 p-8 text-center shadow-soft w-full">
+            <p class="text-ink-muted">No artists found matching the criteria.</p>
+        </div>
+        `;
+        return;
+    }
+    
+    try {
+        filtered.forEach(artist => {
+            const initial = (artist.name || 'A').charAt(0).toUpperCase();
+            let cardClass = "bg-bg rounded-2xl border transition-smooth shadow-soft w-full ";
+            let statusBadge = "";
+            
+            if (artist.status === 'PENDING') {
+                cardClass += "border-warning/30";
+                statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-warning/20 text-[#d97706]">PENDING</span>`;
+            } else if (artist.status === 'APPROVED') {
+                cardClass += "border-ink/10 hover:border-saffron-dark/20";
+                statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-success/20 text-success">APPROVED</span>`;
+            } else {
+                cardClass += "border-destructive/30";
+                statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-destructive/10 text-destructive">REJECTED</span>`;
+            }
+            
+            let actionButtons = "";
+            if (artist.status === 'PENDING') {
+                actionButtons = `
+                <button onclick="approveArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-success/10 text-success hover:bg-success/20 border border-success/20 transition-colors">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i> Approve
+                </button>
+                <button onclick="rejectArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-destructive/10 text-destructive hover:bg-destructive/20 border border-destructive/20 transition-colors">
+                    <i data-lucide="x-circle" class="w-4 h-4"></i> Reject
+                </button>
+                `;
+            } else if (artist.status === 'APPROVED') {
+                actionButtons = `
+                <button onclick="rejectArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-destructive/10 text-destructive hover:bg-destructive/20 border border-destructive/20 transition-colors">
+                    <i data-lucide="x-circle" class="w-4 h-4"></i> Reject
+                </button>
+                `;
+            } else {
+                actionButtons = `
+                <button onclick="approveArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-success/10 text-success hover:bg-success/20 border border-success/20 transition-colors">
+                    <i data-lucide="check-circle" class="w-4 h-4"></i> Approve
+                </button>
+                `;
+            }
+            
+            const item = document.createElement('div');
+            item.className = cardClass;
+            item.innerHTML = `
+            <div class="p-5 flex flex-col md:flex-row items-start md:items-center gap-4">
+                <div class="w-12 h-12 rounded-xl ${artist.status === 'PENDING' ? 'bg-warning/20 text-[#d97706]' : artist.status === 'APPROVED' ? 'bg-success/20 text-success' : 'bg-destructive/10 text-destructive'} flex items-center justify-center font-bold text-lg flex-shrink-0">
+                    ${initial}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <p class="text-ink font-semibold truncate text-lg">${artist.name || 'Unknown Artist'}</p>
+                        ${statusBadge}
+                    </div>
+                    <p class="text-ink-muted text-sm">${getSpecDisplayName(artist.spec || artist.specialization)} • ${artist.exp || '1 yr exp'} • ${artist.state || 'India'}</p>
+                    <p class="text-ink-muted/60 text-xs mt-1">Email: ${artist.email || 'N/A'} | Joined: ${artist.joined || artist.joinedDate || 'Recent'}</p>
+                </div>
+                <div class="flex items-center gap-2 flex-shrink-0 flex-wrap w-full md:w-auto mt-4 md:mt-0">
+                    ${actionButtons}
+                    <button onclick="deleteArtist('${artist.email}')" class="w-9 h-9 rounded-lg flex items-center justify-center text-destructive/50 hover:text-destructive hover:bg-destructive/10 transition-colors" title="Delete Artist">
+                        <i data-lucide="trash-2" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+            `;
+            container.appendChild(item);
+        });
+    } catch(e) {
+        container.innerHTML = `<div class="p-8 text-destructive">Render Error: ${e.message}</div>`;
+    }
+    lucide.createIcons();
 }
-if (query.trim()) {
-const q = query.toLowerCase();
-filtered = filtered.filter(a => {
-  const nameVal = a.name || '';
-  const specVal = a.spec || a.specialization || '';
-  return nameVal.toLowerCase().includes(q) ||
-         specVal.toLowerCase().includes(q) ||
-         getSpecDisplayName(specVal).toLowerCase().includes(q);
-});
-}
-if (filtered.length === 0) {
-container.innerHTML = `
-<div class="bg-bg rounded-2xl border border-ink/10 p-8 text-center shadow-soft w-full">
-<p class="text-ink-muted">No artists found matching the criteria.</p>
-</div>
-`;
-return;
-}
-try {
-filtered.forEach(artist => {
-const initial = (artist.name || 'A').charAt(0).toUpperCase();
-let cardClass = "bg-bg rounded-2xl border transition-smooth shadow-soft w-full ";
-let statusBadge = "";
-if (artist.status === 'PENDING') {
-cardClass += "border-warning/30";
-statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-warning/20 text-[#d97706]">PENDING</span>`;
-} else if (artist.status === 'APPROVED') {
-cardClass += "border-ink/10 hover:border-saffron-dark/20";
-statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-success/20 text-success">APPROVED</span>`;
-} else {
-cardClass += "border-destructive/30";
-statusBadge = `<span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-destructive/10 text-destructive">REJECTED</span>`;
-}
-let actionButtons = "";
-if (artist.status === 'PENDING') {
-actionButtons = `
-<button onclick="approveArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-success/10 text-success hover:bg-success/20 border border-success/20 transition-colors">
-<i data-lucide="check-circle" class="w-4 h-4"></i> Approve
-</button>
-<button onclick="rejectArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-destructive/10 text-destructive hover:bg-destructive/20 border border-destructive/20 transition-colors">
-<i data-lucide="x-circle" class="w-4 h-4"></i> Reject
-</button>
-`;
-} else if (artist.status === 'APPROVED') {
-actionButtons = `
-<button onclick="rejectArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-destructive/10 text-destructive hover:bg-destructive/20 border border-destructive/20 transition-colors">
-<i data-lucide="x-circle" class="w-4 h-4"></i> Reject
-</button>
-`;
-} else {
-actionButtons = `
-<button onclick="approveArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-success/10 text-success hover:bg-success/20 border border-success/20 transition-colors">
-<i data-lucide="check-circle" class="w-4 h-4"></i> Approve
-</button>
-`;
-}
-const item = document.createElement('div');
-item.className = cardClass;
-item.innerHTML = `
-<div class="p-5 flex flex-col md:flex-row items-start md:items-center gap-4">
-<div class="w-12 h-12 rounded-xl ${artist.status === 'PENDING' ? 'bg-warning/20 text-[#d97706]' : artist.status === 'APPROVED' ? 'bg-success/20 text-success' : 'bg-destructive/10 text-destructive'} flex items-center justify-center font-bold text-lg flex-shrink-0">
-${initial}
-</div>
-<div class="flex-1 min-w-0">
-<div class="flex items-center gap-2 flex-wrap">
-<p class="text-ink font-semibold truncate text-lg">${artist.name || 'Unknown Artist'}</p>
-${statusBadge}
-</div>
-<p class="text-ink-muted text-sm">${getSpecDisplayName(artist.spec || artist.specialization)} • ${artist.exp || '1 yr exp'} • ${artist.state || 'India'}</p>
-<p class="text-ink-muted/60 text-xs mt-1">Email: ${artist.email || 'N/A'} | Joined: ${artist.joined || artist.joinedDate || 'Recent'}</p>
-</div>
-<div class="flex items-center gap-2 flex-shrink-0 flex-wrap w-full md:w-auto mt-4 md:mt-0">
-${actionButtons}
-<button onclick="deleteArtist('${artist.email}')" class="w-9 h-9 rounded-lg flex items-center justify-center text-destructive/50 hover:text-destructive hover:bg-destructive/10 transition-colors" title="Delete Artist">
-<i data-lucide="trash-2" class="w-4 h-4"></i>
-</button>
-</div>
-</div>
-`;
-container.appendChild(item);
-});
-} catch(e) {
-  container.innerHTML = `<div class="p-8 text-destructive">Render Error: ${e.message}</div>`;
-}
-lucide.createIcons();
-}
+
 function renderUsers() {
-let adminUsers = JSON.parse(localStorage.getItem('admin_users') || '[]');
-if (!Array.isArray(adminUsers)) adminUsers = [];
-const tableBody = document.getElementById('user-table-body');
-if (!tableBody) return;
-tableBody.innerHTML = '';
-if (adminUsers.length === 0) {
-tableBody.innerHTML = `
-<tr>
-<td colspan="4" class="p-8 text-center text-ink-muted text-sm">No registered users found.</td>
-</tr>
-`;
-return;
+    const tableBody = document.getElementById('user-table-body');
+    if (!tableBody) return;
+    tableBody.innerHTML = '';
+    
+    if (adminUsers.length === 0) {
+        tableBody.innerHTML = `
+        <tr>
+            <td colspan="4" class="p-8 text-center text-ink-muted text-sm">No registered users found.</td>
+        </tr>
+        `;
+        return;
+    }
+    
+    try {
+        adminUsers.forEach(user => {
+            const tr = document.createElement('tr');
+            tr.className = "hover:bg-cream/30 transition-colors";
+            tr.innerHTML = `
+            <td class="p-4 text-sm font-medium text-ink">${user.name}</td>
+            <td class="p-4 text-sm text-ink-muted">${user.email}</td>
+            <td class="p-4 text-sm text-ink-muted">${user.joined}</td>
+            <td class="p-4 text-right">
+                <button onclick="deleteUser('${user.email}')" class="text-destructive/50 hover:text-destructive transition-colors" title="Delete User">
+                    <i data-lucide="trash-2" class="w-4 h-4 inline"></i>
+                </button>
+            </td>
+            `;
+            tableBody.appendChild(tr);
+        });
+    } catch(e) {
+        tableBody.innerHTML = `<tr><td colspan="4" class="p-4 text-destructive">Render Error: ${e.message}</td></tr>`;
+    }
+    lucide.createIcons();
 }
-try {
-adminUsers.forEach(user => {
-const tr = document.createElement('tr');
-tr.className = "hover:bg-cream/30 transition-colors";
-tr.innerHTML = `
-<td class="p-4 text-sm font-medium text-ink">${user.name}</td>
-<td class="p-4 text-sm text-ink-muted">${user.email}</td>
-<td class="p-4 text-sm text-ink-muted">${user.joined}</td>
-<td class="p-4 text-right">
-<button onclick="deleteUser('${user.email}')" class="text-destructive/50 hover:text-destructive transition-colors" title="Delete User">
-<i data-lucide="trash-2" class="w-4 h-4 inline"></i>
-</button>
-</td>
-`;
-tableBody.appendChild(tr);
-});
-} catch(e) {
-  tableBody.innerHTML = `<tr><td colspan="4" class="p-4 text-destructive">Render Error: ${e.message}</td></tr>`;
-}
-lucide.createIcons();
-}
+
 function renderRecentActivity() {
-const adminArtists = JSON.parse(localStorage.getItem('admin_artists') || '[]');
-const adminUsers = JSON.parse(localStorage.getItem('admin_users') || '[]');
+    const recentArtistsContainer = document.getElementById('recent-artists-container');
+    if (recentArtistsContainer) {
+        recentArtistsContainer.innerHTML = '';
+        const latestArtists = [...adminArtists].reverse().slice(0, 3);
+        latestArtists.forEach(artist => {
+            const initial = artist.name.charAt(0).toUpperCase();
+            const div = document.createElement('div');
+            div.className = "p-4 flex items-center justify-between hover:bg-cream/50 transition-colors";
+            div.innerHTML = `
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-saffron-light flex items-center justify-center text-saffron-dark font-bold text-sm">
+                    ${initial}
+                </div>
+                <div>
+                    <p class="text-ink text-sm font-medium">${artist.name}</p>
+                    <p class="text-ink-muted text-xs">${getSpecDisplayName(artist.spec)}</p>
+                </div>
+            </div>
+            <span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${artist.status === 'PENDING' ? 'bg-warning/20 text-[#d97706]' : artist.status === 'APPROVED' ? 'bg-success/20 text-success' : 'bg-destructive/10 text-destructive'}">
+                ${artist.status.toLowerCase()}
+            </span>
+            `;
+            recentArtistsContainer.appendChild(div);
+        });
+    }
 
-const recentArtistsContainer = document.getElementById('recent-artists-container');
-if (recentArtistsContainer) {
-recentArtistsContainer.innerHTML = '';
-const latestArtists = [...adminArtists].reverse().slice(0, 3);
-latestArtists.forEach(artist => {
-const initial = artist.name.charAt(0).toUpperCase();
-const div = document.createElement('div');
-div.className = "p-4 flex items-center justify-between hover:bg-cream/50 transition-colors";
-div.innerHTML = `
-<div class="flex items-center gap-3">
-<div class="w-9 h-9 rounded-full bg-saffron-light flex items-center justify-center text-saffron-dark font-bold text-sm">
-${initial}
-</div>
-<div>
-<p class="text-ink text-sm font-medium">${artist.name}</p>
-<p class="text-ink-muted text-xs">${getSpecDisplayName(artist.spec)}</p>
-</div>
-</div>
-<span class="px-2 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${artist.status === 'PENDING' ? 'bg-warning/20 text-[#d97706]' : artist.status === 'APPROVED' ? 'bg-success/20 text-success' : 'bg-destructive/10 text-destructive'}">
-${artist.status.toLowerCase()}
-</span>
-`;
-recentArtistsContainer.appendChild(div);
-});
-}
-
-const recentUsersContainer = document.getElementById('recent-users-container');
-if (recentUsersContainer) {
-recentUsersContainer.innerHTML = '';
-const latestUsers = [...adminUsers].reverse().slice(0, 3);
-latestUsers.forEach(user => {
-const initial = user.name.charAt(0).toUpperCase();
-const div = document.createElement('div');
-div.className = "p-4 flex items-center justify-between hover:bg-cream/50 transition-colors";
-div.innerHTML = `
-<div class="flex items-center gap-3">
-<div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">
-${initial}
-</div>
-<div>
-<p class="text-ink text-sm font-medium">${user.name}</p>
-<p class="text-ink-muted text-xs">${user.email}</p>
-</div>
-</div>
-<span class="text-ink-muted text-xs">${user.joined}</span>
-`;
-recentUsersContainer.appendChild(div);
-});
-}
+    const recentUsersContainer = document.getElementById('recent-users-container');
+    if (recentUsersContainer) {
+        recentUsersContainer.innerHTML = '';
+        const latestUsers = [...adminUsers].reverse().slice(0, 3);
+        latestUsers.forEach(user => {
+            const initial = user.name.charAt(0).toUpperCase();
+            const div = document.createElement('div');
+            div.className = "p-4 flex items-center justify-between hover:bg-cream/50 transition-colors";
+            div.innerHTML = `
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">
+                    ${initial}
+                </div>
+                <div>
+                    <p class="text-ink text-sm font-medium">${user.name}</p>
+                    <p class="text-ink-muted text-xs">${user.email}</p>
+                </div>
+            </div>
+            <span class="text-ink-muted text-xs">${user.joined}</span>
+            `;
+            recentUsersContainer.appendChild(div);
+        });
+    }
 }
 
 function approveArtist(email) {
-let adminArtists = JSON.parse(localStorage.getItem('admin_artists') || '[]');
-const index = adminArtists.findIndex(a => a.email === email);
-if (index !== -1) {
-adminArtists[index].status = 'APPROVED';
-try { localStorage.setItem('admin_artists', JSON.stringify(adminArtists)); } catch(e) {}
-
-let users = JSON.parse(localStorage.getItem('users') || '{}');
-if (users[email]) {
-users[email].isApproved = true;
-users[email].isRejected = false;
-try { localStorage.setItem('users', JSON.stringify(users)); } catch(e) {}
-}
-refreshDashboard();
-}
+    fetch('/api/admin/artists/' + email + '/status', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'APPROVED' })
+    }).then(r => r.json()).then(data => {
+        if(data.success) {
+            refreshDashboard();
+            showCmsToast('Artist Approved');
+        } else {
+            alert(data.message || 'Error approving artist');
+        }
+    });
 }
 
 function rejectArtist(email) {
-let adminArtists = JSON.parse(localStorage.getItem('admin_artists') || '[]');
-const index = adminArtists.findIndex(a => a.email === email);
-if (index !== -1) {
-adminArtists[index].status = 'REJECTED';
-try { localStorage.setItem('admin_artists', JSON.stringify(adminArtists)); } catch(e) {}
-
-let users = JSON.parse(localStorage.getItem('users') || '{}');
-if (users[email]) {
-users[email].isApproved = false;
-users[email].isRejected = true;
-try { localStorage.setItem('users', JSON.stringify(users)); } catch(e) {}
-}
-refreshDashboard();
-}
+    fetch('/api/admin/artists/' + email + '/status', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'REJECTED' })
+    }).then(r => r.json()).then(data => {
+        if(data.success) {
+            refreshDashboard();
+            showCmsToast('Artist Rejected');
+        } else {
+            alert(data.message || 'Error rejecting artist');
+        }
+    });
 }
 
 function deleteArtist(email) {
-if (confirm(`Are you sure you want to delete the artist with email: ${email}?`)) {
-let adminArtists = JSON.parse(localStorage.getItem('admin_artists') || '[]');
-adminArtists = adminArtists.filter(a => a.email !== email);
-try { localStorage.setItem('admin_artists', JSON.stringify(adminArtists)); } catch(e) {}
-
-let users = JSON.parse(localStorage.getItem('users') || '{}');
-if (users[email]) {
-delete users[email];
-try { localStorage.setItem('users', JSON.stringify(users)); } catch(e) {}
-}
-refreshDashboard();
-}
+    if (confirm(`Are you sure you want to delete the artist with email: ${email}?`)) {
+        fetch('/api/admin/artists/' + email, {
+            method: 'DELETE'
+        }).then(r => r.json()).then(data => {
+            if(data.success) {
+                refreshDashboard();
+                showCmsToast('Artist Deleted');
+            } else {
+                alert(data.message || 'Error deleting artist');
+            }
+        });
+    }
 }
 
 function deleteUser(email) {
-if (confirm(`Are you sure you want to delete the user with email: ${email}?`)) {
-let adminUsers = JSON.parse(localStorage.getItem('admin_users') || '[]');
-adminUsers = adminUsers.filter(u => u.email !== email);
-try { localStorage.setItem('admin_users', JSON.stringify(adminUsers)); } catch(e) {}
-
-let users = JSON.parse(localStorage.getItem('users') || '{}');
-if (users[email]) {
-delete users[email];
-try { localStorage.setItem('users', JSON.stringify(users)); } catch(e) {}
-}
-
-let adminArtists = JSON.parse(localStorage.getItem('admin_artists') || '[]');
-adminArtists = adminArtists.filter(a => a.email !== email);
-try { localStorage.setItem('admin_artists', JSON.stringify(adminArtists)); } catch(e) {}
-
-refreshDashboard();
-}
+    if (confirm(`Are you sure you want to delete the user with email: ${email}?`)) {
+        fetch('/api/admin/users/' + email, {
+            method: 'DELETE'
+        }).then(r => r.json()).then(data => {
+            if(data.success) {
+                refreshDashboard();
+                showCmsToast('User Deleted');
+            } else {
+                alert(data.message || 'Error deleting user');
+            }
+        });
+    }
 }
 
 function toggleAddArtistForm() {
-  const container = document.getElementById('add-artist-form-container');
-  if (container) {
-    container.classList.toggle('hidden');
-    if (!container.classList.contains('hidden')) {
-      document.getElementById('new-artist-name').focus();
+    const container = document.getElementById('add-artist-form-container');
+    if (container) {
+        container.classList.toggle('hidden');
+        if (!container.classList.contains('hidden')) {
+            document.getElementById('new-artist-name').focus();
+        }
     }
-  }
 }
 
 function saveNewArtist(e) {
-  e.preventDefault();
-  const name = document.getElementById('new-artist-name').value.trim();
-  const email = document.getElementById('new-artist-email').value.trim();
-  const password = document.getElementById('new-artist-password').value || 'Heritage@2025';
-  const spec = document.getElementById('new-artist-spec').value;
-  const exp = document.getElementById('new-artist-exp').value.trim() || '5 yrs exp';
-  const state = document.getElementById('new-artist-state').value.trim() || 'Bihar';
-  const status = document.getElementById('new-artist-status').value;
+    e.preventDefault();
+    const name = document.getElementById('new-artist-name').value.trim();
+    const email = document.getElementById('new-artist-email').value.trim();
+    const password = document.getElementById('new-artist-password').value || 'Heritage@2025';
+    const spec = document.getElementById('new-artist-spec').value;
+    const exp = document.getElementById('new-artist-exp').value.trim() || '5 yrs exp';
+    const state = document.getElementById('new-artist-state').value.trim() || 'Bihar';
+    const status = document.getElementById('new-artist-status').value;
 
-  if (!name || !email) return;
+    if (!name || !email) return;
 
-  let users = JSON.parse(localStorage.getItem('users') || '{}');
-  users[email] = {
-    fullName: name,
-    spec: spec,
-    password: password,
-    isNewUser: false,
-    isApproved: status === 'APPROVED',
-    isRejected: status === 'REJECTED'
-  };
-  try { localStorage.setItem('users', JSON.stringify(users)); } catch(err) { console.error(err); }
-
-  let adminArtists = JSON.parse(localStorage.getItem('admin_artists') || '[]');
-  if (!Array.isArray(adminArtists)) adminArtists = [];
-  
-  const existingIdx = adminArtists.findIndex(a => a.email === email);
-  const artistData = {
-    id: "ART-" + Math.floor(1000 + Math.random() * 9000),
-    name: name,
-    email: email,
-    spec: spec,
-    specialization: spec,
-    status: status,
-    exp: exp,
-    experience: exp,
-    state: state,
-    joined: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-    joinedDate: new Date().toLocaleDateString('en-IN')
-  };
-
-  if (existingIdx !== -1) {
-    adminArtists[existingIdx] = artistData;
-  } else {
-    adminArtists.push(artistData);
-  }
-  
-  try { localStorage.setItem('admin_artists', JSON.stringify(adminArtists)); } catch(err) { console.error(err); }
-
-  document.getElementById('add-artist-form').reset();
-  document.getElementById('new-artist-password').value = 'Heritage@2025';
-  document.getElementById('new-artist-exp').value = '5 yrs exp';
-  document.getElementById('new-artist-state').value = 'Bihar';
-  document.getElementById('add-artist-form-container').classList.add('hidden');
-
-  refreshDashboard();
-  showCmsToast('Artist added successfully!');
+    fetch('/api/admin/artists', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            fullName: name,
+            email: email,
+            password: password,
+            specialization: spec,
+            experience: exp,
+            location: state,
+            status: status
+        })
+    }).then(r => r.json()).then(data => {
+        if(data.success) {
+            document.getElementById('add-artist-form').reset();
+            document.getElementById('new-artist-password').value = 'Heritage@2025';
+            document.getElementById('new-artist-exp').value = '5 yrs exp';
+            document.getElementById('new-artist-state').value = 'Bihar';
+            document.getElementById('add-artist-form-container').classList.add('hidden');
+            refreshDashboard();
+            showCmsToast('Artist added successfully!');
+        } else {
+            alert(data.message || 'Error adding artist');
+        }
+    });
 }
 
 function toggleAddUserForm() {
-  const container = document.getElementById('add-user-form-container');
-  if (container) {
-    container.classList.toggle('hidden');
-    if (!container.classList.contains('hidden')) {
-      document.getElementById('new-user-name').focus();
+    const container = document.getElementById('add-user-form-container');
+    if (container) {
+        container.classList.toggle('hidden');
+        if (!container.classList.contains('hidden')) {
+            document.getElementById('new-user-name').focus();
+        }
     }
-  }
 }
 
 function saveNewUser(e) {
-  e.preventDefault();
-  const name = document.getElementById('new-user-name').value.trim();
-  const email = document.getElementById('new-user-email').value.trim();
+    e.preventDefault();
+    const name = document.getElementById('new-user-name').value.trim();
+    const email = document.getElementById('new-user-email').value.trim();
 
-  if (!name || !email) return;
+    if (!name || !email) return;
 
-  let adminUsers = JSON.parse(localStorage.getItem('admin_users') || '[]');
-  if (!Array.isArray(adminUsers)) adminUsers = [];
-  
-  if (!adminUsers.some(u => u.email === email)) {
-    adminUsers.push({
-      name: name,
-      email: email,
-      joined: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+    fetch('/api/admin/users', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            fullName: name,
+            email: email,
+            password: 'User@123'
+        })
+    }).then(r => r.json()).then(data => {
+        if(data.success) {
+            document.getElementById('add-user-form').reset();
+            document.getElementById('add-user-form-container').classList.add('hidden');
+            refreshDashboard();
+            showCmsToast('User added successfully!');
+        } else {
+            alert(data.message || 'Error adding user');
+        }
     });
-    try { localStorage.setItem('admin_users', JSON.stringify(adminUsers)); } catch(err) { console.error(err); }
-  }
-
-  let users = JSON.parse(localStorage.getItem('users') || '{}');
-  if (!users[email]) {
-    users[email] = {
-      fullName: name,
-      password: 'User@123',
-      isApproved: true,
-      isRejected: false
-    };
-    try { localStorage.setItem('users', JSON.stringify(users)); } catch(err) { console.error(err); }
-  }
-
-  document.getElementById('add-user-form').reset();
-  document.getElementById('add-user-form-container').classList.add('hidden');
-
-  refreshDashboard();
-  showCmsToast('User added successfully!');
 }
 
 function restoreDatabaseToDefault() {
-  if (confirm("Are you sure you want to restore the database to its default status? This will restore original master artists and default demo users.")) {
-    const initialArtists = [
-      { id: "ART-9281", name: "Sita Devi", email: "sita@example.com", spec: "mithila", status: "APPROVED", exp: "20 yrs exp", state: "Bihar", joined: "May 19, 2026" },
-      { id: "ART-9282", name: "Ravi Varma", email: "ravi@example.com", spec: "pattachitra", status: "PENDING", exp: "15 yrs exp", state: "Odisha", joined: "May 18, 2026" },
-      { id: "ART-9283", name: "Jivya Soma Mashe", email: "jivya@example.com", spec: "warli", status: "APPROVED", exp: "30 yrs exp", state: "Maharashtra", joined: "May 15, 2026" },
-      { id: "ART-9284", name: "Anjali Pichai", email: "anjali@example.com", spec: "tanjore", status: "APPROVED", exp: "12 yrs exp", state: "Tamil Nadu", joined: "May 12, 2026" }
-    ];
-    const initialUsers = [
-      { name: "Ananya Sharma", email: "ananya@example.com", joined: "May 19, 2026" },
-      { name: "Vikram Singh", email: "vikram@example.com", joined: "May 18, 2026" },
-      { name: "Sathwik Manoj", email: "sathwik@example.com", joined: "May 15, 2026" }
-    ];
-    
-    const users = {
-      "artist@paintedmuse.com": {
-        password: "Heritage@2025",
-        fullName: "Demo Artist",
-        spec: "mithila",
-        state: "Bihar",
-        isApproved: true,
-        isRejected: false
-      },
-      "sita@example.com": {
-        password: "Heritage@2025",
-        fullName: "Sita Devi",
-        spec: "mithila",
-        state: "Bihar",
-        isApproved: true,
-        isRejected: false
-      },
-      "ravi@example.com": {
-        password: "Heritage@2025",
-        fullName: "Ravi Varma",
-        spec: "pattachitra",
-        state: "Odisha",
-        isApproved: false,
-        isRejected: false
-      },
-      "jivya@example.com": {
-        password: "Heritage@2025",
-        fullName: "Jivya Soma Mashe",
-        spec: "warli",
-        state: "Maharashtra",
-        isApproved: true,
-        isRejected: false
-      },
-      "anjali@example.com": {
-        password: "Heritage@2025",
-        fullName: "Anjali Pichai",
-        spec: "tanjore",
-        state: "Tamil Nadu",
-        isApproved: true,
-        isRejected: false
-      }
-    };
-    
-    try {
-      localStorage.setItem('admin_artists', JSON.stringify(initialArtists));
-      localStorage.setItem('admin_users', JSON.stringify(initialUsers));
-      localStorage.setItem('users', JSON.stringify(users));
-      showCmsToast('Database restored to default status!');
-      setTimeout(() => window.location.reload(), 1500);
-    } catch(err) {
-      alert("Failed to restore defaults: " + err.message);
-    }
-  }
+    alert("Database restoration is no longer handled via localStorage. Please modify the backend DB directly or implement a backend seeder.");
 }
 
 function clearEntireDatabase() {
-  if (confirm("WARNING: This will completely wipe all artists, users, and CMS configurations. Are you sure you want to proceed?")) {
-    try {
-      localStorage.removeItem('admin_artists');
-      localStorage.removeItem('admin_users');
-      localStorage.removeItem('users');
-      showCmsToast('All user and artist data wiped!');
-      setTimeout(() => window.location.reload(), 1500);
-    } catch(err) {
-      alert("Wipe failed: " + err.message);
-    }
-  }
+    alert("Clear database is disabled to prevent accidental data wipe. Please use backend endpoints.");
 }
 
 /* ═══════════════════════════════════════════════════════════════
@@ -2033,5 +1945,145 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch(e => console.error("Initial CMS sync failed", e));
 });
 </script>
+
+<script>
+let workshopsData = [];
+
+function toggleAddWorkshopForm() {
+    const formContainer = document.getElementById('add-workshop-form-container');
+    if (formContainer.classList.contains('hidden')) {
+        formContainer.classList.remove('hidden');
+    } else {
+        formContainer.classList.add('hidden');
+        document.getElementById('add-workshop-form').reset();
+    }
+}
+
+async function fetchWorkshops() {
+    try {
+        const res = await fetch('/api/admin/workshops');
+        const data = await res.json();
+        if (data.success) {
+            workshopsData = data.workshops;
+            renderWorkshops();
+        }
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+function renderWorkshops() {
+    const container = document.getElementById('workshop-list-container');
+    if (!container) return;
+    
+    if (workshopsData.length === 0) {
+        container.innerHTML = '<div class="p-8 text-center text-ink-muted bg-bg rounded-2xl border border-ink/10">No workshops found. Create one.</div>';
+        return;
+    }
+    
+    container.innerHTML = workshopsData.map(ws => `
+        <div class="bg-bg rounded-2xl border border-ink/10 p-5 flex flex-col md:flex-row items-center gap-6 shadow-soft hover:shadow-medium transition-smooth">
+            <div class="w-24 h-24 rounded-xl overflow-hidden flex-shrink-0 border border-ink/10">
+                <img src="${ws.imageUrl}" class="w-full h-full object-cover">
+            </div>
+            <div class="flex-1 min-w-0">
+                <h4 class="text-lg font-serif font-bold text-ink mb-1 truncate">${ws.title}</h4>
+                <div class="flex flex-wrap gap-4 text-xs font-medium text-ink-muted mb-2">
+                    <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> ${ws.location}</span>
+                    <span class="flex items-center gap-1"><i data-lucide="calendar" class="w-3.5 h-3.5"></i> ${ws.startDate}</span>
+                    <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> ${ws.duration}</span>
+                </div>
+                <p class="text-sm text-ink/70 line-clamp-2">${ws.description}</p>
+            </div>
+            <div class="flex flex-col items-end gap-3 flex-shrink-0 w-full md:w-auto mt-4 md:mt-0">
+                <div class="text-lg font-bold text-saffron-dark">₹${ws.price}</div>
+                <button onclick="deleteWorkshop('${ws._id}')" class="px-4 py-2 border border-destructive/20 text-destructive hover:bg-destructive/10 rounded-xl text-xs font-semibold transition-smooth flex items-center gap-1.5">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i> Delete
+                </button>
+            </div>
+        </div>
+    `).join('');
+    
+    // Re-initialize lucide icons for new content
+    if(typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+async function saveNewWorkshop(e) {
+    e.preventDefault();
+    const payload = {
+        title: document.getElementById('new-ws-title').value,
+        description: document.getElementById('new-ws-desc').value,
+        price: document.getElementById('new-ws-price').value,
+        startDate: document.getElementById('new-ws-date').value,
+        duration: document.getElementById('new-ws-duration').value,
+        seatsAvailable: document.getElementById('new-ws-seats').value,
+        location: document.getElementById('new-ws-location').value,
+        imageUrl: document.getElementById('new-ws-img').value,
+    };
+    
+    try {
+        const res = await fetch('/api/admin/workshops', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (data.success) {
+            toggleAddWorkshopForm();
+            fetchWorkshops();
+            alert('Workshop created successfully!');
+        } else {
+            alert('Failed to create workshop');
+        }
+    } catch(e) {
+        console.error(e);
+        alert('Server error');
+    }
+}
+
+async function deleteWorkshop(id) {
+    if(!confirm('Delete this workshop?')) return;
+    try {
+        const res = await fetch(`/api/admin/workshops/${id}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+            fetchWorkshops();
+        } else {
+            alert('Failed to delete');
+        }
+    } catch(e) {
+        console.error(e);
+        alert('Server error');
+    }
+}
+
+// Hook into existing switchView logic to fetch workshops when tab is clicked
+const originalSwitchView = window.switchView;
+window.switchView = function(viewId) {
+    if (viewId === 'workshops') {
+        fetchWorkshops();
+    }
+    if (typeof originalSwitchView === 'function') {
+        originalSwitchView(viewId);
+    } else {
+        document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active', 'bg-cream', 'text-ink'));
+        
+        const targetView = document.getElementById('view-' + viewId);
+        if (targetView) targetView.classList.add('active');
+        
+        const btn = document.querySelector(`button[onclick="switchView('${viewId}')"]`);
+        if (btn) btn.classList.add('active', 'bg-cream', 'text-ink');
+    }
+};
+
+// Initial fetch if active view is workshops (unlikely, but safe)
+document.addEventListener('DOMContentLoaded', () => {
+    if (document.querySelector('.nav-item.active[onclick*="workshops"]')) {
+        fetchWorkshops();
+    }
+});
+</script>
+
 </body>
 </html>

@@ -78,7 +78,7 @@ const Artwork = require('../models/Artwork');
 // Get all approved artists (for user dashboard)
 router.get('/api/artists/approved', async (req, res) => {
     try {
-        const artists = await Artist.find({ isApproved: true }).select('-password');
+        const artists = await Artist.find({ status: 'APPROVED' }).select('-password');
         res.json({ success: true, artists });
     } catch (err) {
         console.error('Error fetching approved artists:', err);
@@ -121,6 +121,41 @@ router.get('/api/artworks/me', requireArtist, async (req, res) => {
     }
 });
 
+// Get a specific artist by ID (public/user)
+router.get('/api/artists/:id', async (req, res) => {
+    try {
+        const artist = await Artist.findById(req.params.id).select('-password');
+        if (!artist) return res.status(404).json({ success: false, message: 'Artist not found' });
+        res.json({ success: true, artist });
+    } catch (err) {
+        console.error('Error fetching artist:', err);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+});
+
+// Get artworks for a specific artist by ID (public/user)
+router.get('/api/artworks/artist/:id', async (req, res) => {
+    try {
+        const artworks = await Artwork.find({ artist: req.params.id }).sort({ createdAt: -1 });
+        res.json({ success: true, artworks });
+    } catch (err) {
+        console.error('Fetch artist artworks error:', err);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+});
+const Workshop = require('../models/Workshop');
+
+// Get all active workshops (public/user)
+router.get('/api/workshops', async (req, res) => {
+    try {
+        const workshops = await Workshop.find({ status: 'Active' }).sort({ createdAt: -1 });
+        res.json({ success: true, workshops });
+    } catch (err) {
+        console.error('Error fetching workshops:', err);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+});
+
 // Explicit mappings for main routes
 router.get('/', (req, res) => res.render('index'));
 router.get('/signin', (req, res) => {
@@ -137,6 +172,7 @@ router.get('/dashboard', requireUser, (req, res) => res.render('dashboard'));
 router.get('/dashboard-artists', requireUser, (req, res) => res.render('dashboard-artists'));
 router.get('/dashboard-commissions', requireUser, (req, res) => res.render('dashboard-commissions'));
 router.get('/dashboard-workshops', requireUser, (req, res) => res.render('dashboard-workshops'));
+router.get('/artist-profile/:id', requireUser, (req, res) => res.render('artist-profile', { artistId: req.params.id }));
 
 // Protected Artist Routes
 router.get('/artist-home', requireArtist, (req, res) => res.render('artist-home'));

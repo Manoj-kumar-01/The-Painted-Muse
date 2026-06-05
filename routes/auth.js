@@ -105,7 +105,10 @@ router.post('/artist-signin', async (req, res) => {
             return res.status(400).json({ success: false, message: 'Invalid email or password.' });
         }
         
-        if (!artist.isApproved) {
+        if (artist.status === 'REJECTED') {
+            return res.status(403).json({ success: false, message: 'Your application was rejected.' });
+        }
+        if (artist.status === 'PENDING') {
             return res.status(403).json({ success: false, message: 'Your application is pending Admin approval.' });
         }
         

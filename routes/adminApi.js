@@ -4,6 +4,7 @@ const Admin = require('../models/Admin');
 const Artist = require('../models/Artist');
 const User = require('../models/User');
 const CmsContent = require('../models/CmsContent');
+const Workshop = require('../models/Workshop');
 
 // Middleware to protect admin API routes
 const requireAdmin = (req, res, next) => {
@@ -77,9 +78,8 @@ router.get('/stats', requireAdmin, async (req, res) => {
     try {
         const totalArtists = await Artist.countDocuments();
         const totalUsers = await User.countDocuments();
-        const pendingApprovals = await Artist.countDocuments({ isApproved: false });
-        // Verified artists could be an extra field or just derived:
-        const verifiedArtists = await Artist.countDocuments({ isApproved: true });
+        const pendingApprovals = await Artist.countDocuments({ status: 'PENDING' });
+        const verifiedArtists = await Artist.countDocuments({ status: 'APPROVED' });
         
         res.json({
             success: true,
@@ -102,13 +102,9 @@ router.get('/artists', requireAdmin, async (req, res) => {
     try {
         const statusFilter = req.query.status; // ALL, PENDING, APPROVED, REJECTED
         let filter = {};
-        if (statusFilter === 'PENDING') {
-            filter.isApproved = false;
-        } else if (statusFilter === 'APPROVED') {
-            filter.isApproved = true;
+        if (statusFilter && statusFilter !== 'ALL') {
+            filter.status = statusFilter;
         }
-        // Assuming REJECTED is a separate flag, but if not we just use isApproved. 
-        // For now, we support PENDING and APPROVED based on current model.
         
         const artists = await Artist.find(filter).sort({ createdAt: -1 });
         res.json({ success: true, artists });
@@ -119,11 +115,10 @@ router.get('/artists', requireAdmin, async (req, res) => {
 });
 
 // Update Artist Status
-router.put('/artists/:id/status', requireAdmin, async (req, res) => {
+router.put('/artists/:email/status', requireAdmin, async (req, res) => {
     try {
         const { status } = req.body; // PENDING, APPROVED, REJECTED
-        const isApproved = status === 'APPROVED';
-        await Artist.findByIdAndUpdate(req.params.id, { isApproved });
+        await Artist.findOneAndUpdate({ email: req.params.email }, { status });
         res.json({ success: true });
     } catch (error) {
         console.error(error);
@@ -135,9 +130,8 @@ router.put('/artists/:id/status', requireAdmin, async (req, res) => {
 router.post('/artists', requireAdmin, async (req, res) => {
     try {
         const newArtist = new Artist(req.body);
-        // Map status to isApproved if provided
         if (req.body.status) {
-            newArtist.isApproved = req.body.status === 'APPROVED';
+            newArtist.status = req.body.status;
         }
         await newArtist.save();
         res.status(201).json({ success: true, artist: newArtist });
@@ -247,6 +241,39 @@ router.delete('/cms', requireAdmin, async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
+
+// Workshop endpoints
+router.get('/workshops', requireAdmin, async (req, res) => {
+    try {
+        const workshops = await Workshop.find().sort({ createdAt: -1 });
+        res.json({ success: true, workshops });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Failed to fetch workshops' });
+    }
+});
+
+router.post('/workshops', requireAdmin, async (req, res) => {
+    try {
+        const workshop = new Workshop(req.body);
+        await workshop.save();
+        res.json({ success: true, workshop });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Failed to create workshop' });
+    }
+});
+
+router.delete('/workshops/:id', requireAdmin, async (req, res) => {
+    try {
+        await Workshop.findByIdAndDelete(req.params.id);
+        res.json({ success: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Failed to delete workshop' });
     }
 });
 
