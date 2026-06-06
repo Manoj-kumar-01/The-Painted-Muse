@@ -26,7 +26,7 @@ router.post('/login', async (req, res) => {
             return res.status(500).json({ success: false, message: 'ADMIN_PASSWORD not set in server environment.' });
         }
         
-        console.log(`LOGIN ATTEMPT - Received: '${password}', Expected: '${expectedPassword}'`);
+
         
         if (password === expectedPassword) {
             req.session.adminAuthenticated = true;

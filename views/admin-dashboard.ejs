@@ -1127,11 +1127,11 @@ function refreshDashboard() {
 
 function renderStats(statsData) {
     if(!statsData) return;
-    const totalArtists = statsData.totalArtists || 0;
-    const pendingCount = statsData.pendingApprovals || 0;
-    const approvedCount = statsData.verifiedArtists || 0;
+    const totalArtists = adminArtists.length;
+    const pendingCount = adminArtists.filter(a => a.status === 'PENDING').length;
+    const approvedCount = adminArtists.filter(a => a.status === 'APPROVED').length;
     const rejectedCount = adminArtists.filter(a => a.status === 'REJECTED').length;
-    const totalUsers = statsData.totalUsers || 0;
+    const totalUsers = adminUsers ? adminUsers.length : (statsData.totalUsers || 0);
 
     document.getElementById('stat-total-artists').textContent = totalArtists;
     document.getElementById('stat-total-users').textContent = totalUsers;
@@ -1229,27 +1229,23 @@ function renderArtists(filter, query = '') {
             }
             
             let actionButtons = "";
+            let approveBtnHtml = `<button onclick="approveArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-success/10 text-success border border-success/20 transition-colors hover:bg-success/20"><i data-lucide="check-circle" class="w-4 h-4"></i> Approve</button>`;
+            let rejectBtnHtml = `<button onclick="rejectArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-destructive/10 text-destructive border border-destructive/20 transition-colors hover:bg-destructive/20"><i data-lucide="x-circle" class="w-4 h-4"></i> Reject</button>`;
+            let approvedDisabledHtml = `<button disabled class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-success/10 text-success border border-success/20 opacity-50 cursor-not-allowed"><i data-lucide="check-circle" class="w-4 h-4"></i> Approved</button>`;
+            let rejectedDisabledHtml = `<button disabled class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-destructive/10 text-destructive border border-destructive/20 opacity-50 cursor-not-allowed"><i data-lucide="x-circle" class="w-4 h-4"></i> Rejected</button>`;
+
             if (artist.status === 'PENDING') {
-                actionButtons = `
-                <button onclick="approveArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-success/10 text-success hover:bg-success/20 border border-success/20 transition-colors">
-                    <i data-lucide="check-circle" class="w-4 h-4"></i> Approve
-                </button>
-                <button onclick="rejectArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-destructive/10 text-destructive hover:bg-destructive/20 border border-destructive/20 transition-colors">
-                    <i data-lucide="x-circle" class="w-4 h-4"></i> Reject
-                </button>
-                `;
+                actionButtons = approveBtnHtml + rejectBtnHtml;
             } else if (artist.status === 'APPROVED') {
-                actionButtons = `
-                <button onclick="rejectArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-destructive/10 text-destructive hover:bg-destructive/20 border border-destructive/20 transition-colors">
-                    <i data-lucide="x-circle" class="w-4 h-4"></i> Reject
-                </button>
-                `;
-            } else {
-                actionButtons = `
-                <button onclick="approveArtist('${artist.email}')" class="flex-1 md:flex-none flex items-center justify-center gap-1 px-4 py-2 rounded-lg text-sm font-medium bg-success/10 text-success hover:bg-success/20 border border-success/20 transition-colors">
-                    <i data-lucide="check-circle" class="w-4 h-4"></i> Approve
-                </button>
-                `;
+                actionButtons = approvedDisabledHtml;
+                if (filter === 'APPROVED') {
+                    actionButtons += rejectBtnHtml;
+                }
+            } else if (artist.status === 'REJECTED') {
+                actionButtons = rejectedDisabledHtml;
+                if (filter === 'REJECTED') {
+                    actionButtons += approveBtnHtml;
+                }
             }
             
             const item = document.createElement('div');

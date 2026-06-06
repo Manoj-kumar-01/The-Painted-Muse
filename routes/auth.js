@@ -106,7 +106,7 @@ router.post('/artist-signin', async (req, res) => {
         }
         
         if (artist.status === 'REJECTED') {
-            return res.status(403).json({ success: false, message: 'Your application was rejected.' });
+            return res.status(403).json({ success: false, message: 'Your application was rejected - you do not appear to be an authentic artisan.' });
         }
         if (artist.status === 'PENDING') {
             return res.status(403).json({ success: false, message: 'Your application is pending Admin approval.' });
