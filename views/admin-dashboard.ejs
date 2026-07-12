@@ -250,6 +250,9 @@ Invalid administrator password.
 <div class="p-6 md:p-8 max-w-[1600px] mx-auto">
 <div class="flex justify-end w-full mb-4">
 <button onclick="sessionStorage.removeItem('admin_authenticated');
+localStorage.removeItem('userLoggedIn');
+localStorage.removeItem('artistLoggedIn');
+localStorage.removeItem('currentUser');
 window.location.href='/';"
 style="background:#B5451B;color:white;border:none;padding:8px 20px;
 border-radius:6px;font-weight:bold;font-size:12px;
@@ -1025,6 +1028,9 @@ msgEl.classList.add('opacity-0');
 
 function handleSignOut() {
 sessionStorage.removeItem("admin_authenticated");
+localStorage.removeItem("userLoggedIn");
+localStorage.removeItem("artistLoggedIn");
+localStorage.removeItem("currentUser");
 checkAuth();
 }
 

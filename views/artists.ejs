@@ -326,7 +326,8 @@ async function loadArtistsFromDB() {
                     bookings: "0",
                     bgImg: bgImg,
                     profileImg: profileImg,
-                    email: artist.email
+                    email: artist.email,
+                    id: artist._id
                 };
             });
             if (typeof handleFilters === 'function') {
@@ -437,7 +438,7 @@ onclick="handleCardClick(${index})">
 </div>
 <p class="text-stone-600 font-sans text-sm mb-6 h-12 leading-relaxed">${item.desc}</p>
 <div class="flex gap-3 pt-2 border-t border-stone-100">
-<button onclick="event.stopPropagation(); window.location.href='/?artist=' + encodeURIComponent('${item.email}')" class="flex-1 border border-stone-300 text-[#1A1208] text-[10px] font-bold uppercase tracking-wider py-3 hover:bg-stone-50 transition-colors">View Portfolio</button>
+<button onclick="event.stopPropagation(); window.location.href='/artist-profile/' + '${item.id}'" class="flex-1 border border-stone-300 text-[#1A1208] text-[10px] font-bold uppercase tracking-wider py-3 hover:bg-stone-50 transition-colors">View Portfolio</button>
 <button onclick="event.stopPropagation(); handleBookArtist('${item.email}')" class="flex-1 bg-[#1A1208] text-white text-[10px] font-bold uppercase tracking-wider py-3 hover:bg-[#D4AF37] hover:text-[#1A1208] transition-colors">Book Now →</button>
 </div>
 </div>
@@ -526,8 +527,8 @@ const cards = artistsGrid.querySelectorAll('.artisan-card');
 const clickedCard = cards[index];
 if (clickedCard.classList.contains('active')) {
 const item = currentRosterData[index % currentRosterData.length];
-if (item && item.email) {
-window.location.href = `/?artist=${encodeURIComponent(item.email)}`;
+if (item && item.id) {
+window.location.href = `/artist-profile/${item.id}`;
 return;
 }
 }

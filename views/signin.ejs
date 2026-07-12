@@ -435,7 +435,10 @@ document.getElementById('signin-form').addEventListener('submit', function (e) {
           submitBtn.innerHTML = btnContent;
       } else {
           // Sync localStorage for Navbar state temporarily
-          localStorage.setItem('userLoggedIn', 'true');
+          localStorage.setItem('artistLoggedIn', 'true');
+          if (data.user) {
+              localStorage.setItem('currentUser', JSON.stringify(data.user));
+          }
           window.location.href = data.redirect;
       }
   })

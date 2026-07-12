@@ -172,7 +172,7 @@ router.get('/dashboard', requireUser, (req, res) => res.render('dashboard'));
 router.get('/dashboard-artists', requireUser, (req, res) => res.render('dashboard-artists'));
 router.get('/dashboard-commissions', requireUser, (req, res) => res.render('dashboard-commissions'));
 router.get('/dashboard-workshops', requireUser, (req, res) => res.render('dashboard-workshops'));
-router.get('/artist-profile/:id', requireUser, (req, res) => res.render('artist-profile', { artistId: req.params.id }));
+router.get('/artist-profile/:id', (req, res) => res.render('artist-profile', { artistId: req.params.id }));
 
 // Protected Artist Routes
 router.get('/artist-home', requireArtist, (req, res) => res.render('artist-home'));

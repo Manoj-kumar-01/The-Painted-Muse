@@ -348,6 +348,9 @@ document.getElementById('signin-form').addEventListener('submit', function (e) {
       } else {
           // Sync localStorage for Navbar state temporarily
           localStorage.setItem('userLoggedIn', 'true');
+          if (data.user) {
+              localStorage.setItem('currentUser', JSON.stringify(data.user));
+          }
           const redirectUrl = localStorage.getItem('redirectAfterLogin') || data.redirect;
           localStorage.removeItem('redirectAfterLogin');
           window.location.href = redirectUrl;
@@ -416,6 +419,9 @@ document.getElementById('signup-form').addEventListener('submit', function(e) {
       } else {
           // Automatically log user in
           localStorage.setItem('userLoggedIn', 'true');
+          if (data.user) {
+              localStorage.setItem('currentUser', JSON.stringify(data.user));
+          }
           const redirectUrl = localStorage.getItem('redirectAfterLogin') || data.redirect;
           localStorage.removeItem('redirectAfterLogin');
           window.location.href = redirectUrl;

@@ -82,21 +82,8 @@ body {
     </div>
   </header>
 
-  <!-- Messages Area -->
   <div id="messages-container" class="flex-grow p-6 overflow-y-auto flex flex-col gap-6 relative" style="background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMDAiIGhlaWdodD0iMjAwIj48ZmlsdGVyIGlkPSJuIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iMC42IiBvY3RhdmVzPSIzIiBzdGlja2VzPSJ0cnVlIi8+PC9maWx0ZXI+PHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsdGVyPSJ1cmwoI24pIiBvcGFjaXR5PSIwLjAyIi8+PC9zdmc+');">
-    <div class="text-center">
-      <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest bg-white border border-stone-100 px-3 py-1 rounded-full shadow-sm">Today</span>
-    </div>
-
-    <!-- Automated System Message -->
-    <div class="flex justify-center">
-      <div class="bg-[#FDFBF7] border border-[#D4AF37]/30 text-[#B5451B] text-[11px] px-4 py-2.5 rounded-xl flex items-center gap-2 max-w-sm text-center shadow-sm">
-        <span class="material-symbols-outlined text-sm">shield</span>
-        Never share your bank or card details in the chat.
-      </div>
-    </div>
-    
-    <!-- Dynamic messages will be injected here -->
+    <!-- Messages and dates will be injected here dynamically -->
   </div>
 
   <!-- Chat Input Footer -->
@@ -155,19 +142,55 @@ socket.on('newMessage', (msg) => {
   renderMessage(msg);
 });
 
+let lastDateGroup = null;
+
+function formatDateGroup(dateStr) {
+    if (!dateStr) return 'Today';
+    const msgDate = new Date(dateStr);
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+
+    if (msgDate.toDateString() === today.toDateString()) {
+        return 'Today';
+    } else if (msgDate.toDateString() === yesterday.toDateString()) {
+        return 'Yesterday';
+    } else {
+        return msgDate.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
+    }
+}
+
+function formatTime(dateStr) {
+    if (!dateStr) {
+        return new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+    }
+    return new Date(dateStr).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+}
+
 function renderMessage(msg) {
   const isMe = msg.senderId === myId;
   const container = document.getElementById('messages-container');
   
+  const msgDateGroup = formatDateGroup(msg.createdAt);
+  if (msgDateGroup !== lastDateGroup) {
+      container.insertAdjacentHTML('beforeend', `
+        <div class="text-center my-4">
+          <span class="text-[10px] font-bold text-stone-400 uppercase tracking-widest bg-white border border-stone-100 px-3 py-1 rounded-full shadow-sm">${msgDateGroup}</span>
+        </div>
+      `);
+      lastDateGroup = msgDateGroup;
+  }
+  
   const alignmentClass = isMe ? 'justify-end' : 'justify-start';
   const bubbleClass = isMe ? 'message-bubble-user' : 'message-bubble-artist';
+  const timeStr = formatTime(msg.createdAt);
   
   const msgHTML = `
     <div class="flex ${alignmentClass} animate-fade-in mb-2 w-full">
       <div class="${bubbleClass} max-w-[80%] md:max-w-md p-3.5 rounded-2xl shadow-sm text-[15px]">
         <p class="leading-relaxed">${msg.content.replace(/\n/g, '<br>')}</p>
         <div class="text-[9px] text-right mt-1 opacity-60">
-          Just now
+          ${timeStr}
         </div>
       </div>
     </div>
@@ -181,8 +204,18 @@ if(receiverId) {
   fetch('/api/chat/' + receiverId)
     .then(res => res.json())
     .then(data => {
+      const container = document.getElementById('messages-container');
+      container.innerHTML = `
+        <!-- Automated System Message -->
+        <div class="flex justify-center mt-6">
+          <div class="bg-[#FDFBF7] border border-[#D4AF37]/30 text-[#B5451B] text-[11px] px-4 py-2.5 rounded-xl flex items-center gap-2 max-w-sm text-center shadow-sm">
+            <span class="material-symbols-outlined text-sm">shield</span>
+            Never share your bank or card details in the chat.
+          </div>
+        </div>
+      `;
+      lastDateGroup = null; // Reset for history
       if(data.success && data.messages.length > 0) {
-         document.getElementById('messages-container').innerHTML = ''; // clear initial content if any history exists
          data.messages.forEach(renderMessage);
       }
     });

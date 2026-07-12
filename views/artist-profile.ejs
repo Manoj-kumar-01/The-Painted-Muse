@@ -13,11 +13,6 @@ rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
 rel="stylesheet" />
 <script>
-(function checkUserAuth() {
-if (localStorage.getItem('userLoggedIn') !== 'true') {
-window.location.href = '/?error=auth';
-}
-})();
 tailwind.config = {
 darkMode: "class",
 theme: {
@@ -89,8 +84,8 @@ border: 1px solid rgba(212, 175, 55, 0.15);
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-stone-200 px-8 py-4 flex justify-between items-center">
 <h1 class="font-serif text-2xl text-text">Artist <span class="italic text-primary">Profile</span></h1>
 <div class="flex items-center gap-4">
-<button onclick="window.location.href='/dashboard'" class="text-stone-500 hover:text-primary transition-colors flex items-center gap-1">
-<span class="material-symbols-outlined text-xl">arrow_back</span> Back to Dashboard
+<button onclick="window.history.length > 1 ? window.history.back() : window.location.href='/artists'" class="text-stone-500 hover:text-primary transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-xl">arrow_back</span> Back
 </button>
 </div>
 </header>

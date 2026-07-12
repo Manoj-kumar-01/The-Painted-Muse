@@ -2,6 +2,27 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const Artist = require('../models/Artist');
+const validator = require('validator');
+const { validate: deepValidateEmail } = require('deep-email-validator');
+
+async function checkEmail(email) {
+    if (!email || !validator.isEmail(email)) {
+        return { valid: false, message: 'Invalid email format.' };
+    }
+    try {
+        const result = await deepValidateEmail(email);
+        if (!result.valid) {
+            let msg = 'Please provide a valid, working email address.';
+            if (result.reason === 'disposable') msg = 'Disposable email addresses are not allowed.';
+            else if (result.reason === 'mx') msg = 'Email domain does not exist or cannot receive mail.';
+            else if (result.reason === 'typo') msg = 'There seems to be a typo in your email domain.';
+            return { valid: false, message: msg };
+        }
+        return { valid: true };
+    } catch (e) {
+        return { valid: true }; // Fallback to allow if deep validation errors out
+    }
+}
 
 // --- USER AUTHENTICATION ---
 
@@ -9,6 +30,11 @@ const Artist = require('../models/Artist');
 router.post('/user-signup', async (req, res) => {
     try {
         const { fullName, email, password } = req.body;
+        
+        const emailValidation = await checkEmail(email);
+        if (!emailValidation.valid) {
+            return res.status(400).json({ success: false, message: emailValidation.message });
+        }
         
         // Check if user exists
         let existingUser = await User.findOne({ email });
@@ -23,7 +49,7 @@ router.post('/user-signup', async (req, res) => {
         req.session.user = { id: newUser._id, fullName: newUser.fullName, email: newUser.email };
         req.session.userType = 'user';
         
-        res.status(201).json({ success: true, message: 'Signup successful! Redirecting...', redirect: '/dashboard' });
+        res.status(201).json({ success: true, message: 'Signup successful! Redirecting...', redirect: '/dashboard', user: req.session.user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Server error during signup.' });
@@ -34,6 +60,10 @@ router.post('/user-signup', async (req, res) => {
 router.post('/user-signin', async (req, res) => {
     try {
         const { email, password } = req.body;
+        
+        if (!email || !validator.isEmail(email)) {
+            return res.status(400).json({ success: false, message: 'Invalid email format.' });
+        }
         
         const user = await User.findOne({ email });
         if (!user) {
@@ -48,7 +78,7 @@ router.post('/user-signin', async (req, res) => {
         req.session.user = { id: user._id, fullName: user.fullName, email: user.email };
         req.session.userType = 'user';
         
-        res.status(200).json({ success: true, message: 'Login successful! Redirecting...', redirect: '/dashboard' });
+        res.status(200).json({ success: true, message: 'Login successful! Redirecting...', redirect: '/dashboard', user: req.session.user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Server error during login.' });
@@ -61,6 +91,11 @@ router.post('/user-signin', async (req, res) => {
 router.post('/artist-signup', async (req, res) => {
     try {
         const { fullName, specialization, otherSpecialization, location, email, password } = req.body;
+        
+        const emailValidation = await checkEmail(email);
+        if (!emailValidation.valid) {
+            return res.status(400).json({ success: false, message: emailValidation.message });
+        }
         
         // Check if artist exists
         let existingArtist = await Artist.findOne({ email });
@@ -95,6 +130,10 @@ router.post('/artist-signin', async (req, res) => {
     try {
         const { email, password } = req.body;
         
+        if (!email || !validator.isEmail(email)) {
+            return res.status(400).json({ success: false, message: 'Invalid email format.' });
+        }
+        
         const artist = await Artist.findOne({ email });
         if (!artist) {
             return res.status(400).json({ success: false, message: 'Invalid email or password.' });
@@ -115,7 +154,7 @@ router.post('/artist-signin', async (req, res) => {
         req.session.user = { id: artist._id, fullName: artist.fullName, email: artist.email };
         req.session.userType = 'artist';
         
-        res.status(200).json({ success: true, message: 'Login successful! Redirecting...', redirect: '/artist-home' });
+        res.status(200).json({ success: true, message: 'Login successful! Redirecting...', redirect: '/artist-home', user: req.session.user });
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Server error during login.' });
