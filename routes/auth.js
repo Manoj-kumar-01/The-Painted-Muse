@@ -9,19 +9,7 @@ async function checkEmail(email) {
     if (!email || !validator.isEmail(email)) {
         return { valid: false, message: 'Invalid email format.' };
     }
-    try {
-        const result = await deepValidateEmail(email);
-        if (!result.valid) {
-            let msg = 'Please provide a valid, working email address.';
-            if (result.reason === 'disposable') msg = 'Disposable email addresses are not allowed.';
-            else if (result.reason === 'mx') msg = 'Email domain does not exist or cannot receive mail.';
-            else if (result.reason === 'typo') msg = 'There seems to be a typo in your email domain.';
-            return { valid: false, message: msg };
-        }
-        return { valid: true };
-    } catch (e) {
-        return { valid: true }; // Fallback to allow if deep validation errors out
-    }
+    return { valid: true };
 }
 
 // --- USER AUTHENTICATION ---
