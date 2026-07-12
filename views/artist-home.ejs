@@ -229,7 +229,7 @@ grid-column: span 2;
 <h1 class="font-headline-lg text-on-background text-4xl"><%= user ? user.fullName : 'Artist' %></h1>
 <p class="font-body-lg text-on-surface-variant mt-2">Here's how your art is performing today.</p>
 </div>
-<button onclick="window.location.href='/'"
+<button onclick="window.location.href='/artist-gallery'"
 class="h-12 px-8 bg-primary text-on-primary font-body-md font-bold uppercase tracking-widest hover:brightness-110 transition-all shadow-lg rounded-lg flex items-center gap-2">
 <span class="material-symbols-outlined text-lg">add</span> New Artwork
 </button>
@@ -271,7 +271,7 @@ Earnings</span></div>
 <section class="mb-12">
 <div class="flex items-center justify-between mb-6">
 <h2 class="font-headline-md text-2xl text-on-background">Recent Uploads</h2>
-<a href="/"
+<a href="/artist-gallery"
 class="font-label-sm text-primary uppercase tracking-widest text-xs hover:underline">View All →</a>
 </div>
 <div id="recent-uploads-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -415,7 +415,7 @@ class="bg-primary text-on-primary border border-primary px-4 py-2 rounded-lg tex
 <div class="space-y-4">
 <div class="flex items-center justify-between border-b border-outline-variant/30 pb-3">
 <h3 class="font-headline-md text-xl font-bold text-on-surface">Masterpieces Collection</h3>
-<button onclick="window.location.href='/'"
+<button onclick="window.location.href='/artist-gallery'"
 class="text-xs font-bold text-primary uppercase tracking-widest hover:underline flex items-center gap-1 group">
 View More <span class="material-symbols-outlined text-sm transition-transform group-hover:translate-x-1">arrow_forward</span>
 </button>
@@ -952,7 +952,7 @@ async function loadPortfolioShowcase() {
       imgCard.style.display = 'block';
     } else {
       imgCard.innerHTML = `
-        <div class="aspect-video bg-surface-container-low overflow-hidden relative flex flex-col items-center justify-center p-8 text-center cursor-pointer" onclick="window.location.href='/'">
+        <div class="aspect-video bg-surface-container-low overflow-hidden relative flex flex-col items-center justify-center p-8 text-center cursor-pointer" onclick="window.location.href='/artist-gallery'">
           <span class="material-symbols-outlined text-primary text-5xl mb-3">add_photo_alternate</span>
           <h4 class="font-headline-md text-lg font-bold text-on-surface">No Featured Image</h4>
           <p class="text-xs text-on-surface-variant/60 mt-1">Upload artwork in your Gallery to feature it here.</p>
