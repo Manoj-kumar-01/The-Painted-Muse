@@ -6,7 +6,7 @@
 <title>Heritage Registry | The Painted Muse</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="components/Navbar.js" defer></script>
-<script src="components/Footer.js" defer></script>
+
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet" />
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
 <style>
@@ -27,21 +27,8 @@ body { background-color: var(--bg); color: var(--ink); font-family: 'Outfit', sa
 
 .badge { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; padding: 4px 12px; border-radius: 100px; }
 
-footer {
-background: #FDFBF7;
-color: var(--ink);
-padding: 100px 0 40px;
-position: relative;
-}
-footer::before {
-content: '';
-position: absolute;
-top: 0;
-left: 0;
-right: 0;
-height: 1px;
-background: linear-gradient(90deg, transparent, var(--saffron), transparent);
-}
+
+
 .foot-top {
 display: grid;
 grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
@@ -156,7 +143,7 @@ opacity: 1;
 <app-navbar></app-navbar>
 <header class="pt-48 pb-24 bg-[#F5F0E8] relative overflow-hidden">
 <div class="absolute inset-0 opacity-[0.05] pointer-events-none">
-<img src="pics/madhubani_pattern_1778230275283.png" class="w-full h-full object-cover" alt="pattern">
+<img src="/pics/madhubani_pattern_1778230275283.png" class="w-full h-full object-cover" alt="pattern">
 </div>
 <div class="container mx-auto px-6 relative z-10">
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
@@ -247,7 +234,7 @@ A living document chronicling the sub-continent's artistic lineage. From tribal 
 </div>
 </div>
 </main>
-<app-footer></app-footer>
+
 <script>
 const GUARANTEED_ART_IMAGES = {
 "Madhubani":    "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Madhubani_painting2.jpg/400px-Madhubani_painting2.jpg",
@@ -278,7 +265,7 @@ const stateArtData = {
 "intro": "A beautiful tapestry of Srikalahasti Kalamkari, hand-painted with bamboo pens and organic dyes.",
 "summary": "Andhra Pradesh is the birthland of Kalamkari, an ancient textile art style. Renowned for its hand-drawn mythological scrolls created using bamboo pens.",
 "yearsOfHeritage": "1500+",
-"patternImg": "pics/kalamkari_pattern_1778230370773.png",
+"patternImg": "/pics/kalamkari_pattern_1778230370773.png",
 "artForms": [
 {
 "name": "Srikalahasti Kalamkari",
@@ -326,7 +313,7 @@ const stateArtData = {
 "intro": "Tibetan-inspired temple frescos painted on lime stone walls by monastic guilds.",
 "summary": "Arunachal Pradesh holds Monastic Murals in its high-altitude Monpa areas. Executed on lime plaster, these paintings capture Buddhist protectors and mandalas.",
 "yearsOfHeritage": "400+",
-"patternImg": "pics/thangka_pattern_1778230438584.png",
+"patternImg": "/pics/thangka_pattern_1778230438584.png",
 "artForms": [
 {
 "name": "Buddhist Murals",
@@ -367,7 +354,7 @@ const stateArtData = {
 "intro": "Manuscript stories painted on processed Sanchi tree bark and local silks.",
 "summary": "Assam holds a rich manuscript art tradition. Painted on prepared bark paper (sanchipat) or local Muga silk, these scrolls depict historical royal wars and Vaishnavite devotion.",
 "yearsOfHeritage": "700+",
-"patternImg": "pics/thangka_pattern_1778230438584.png",
+"patternImg": "/pics/thangka_pattern_1778230438584.png",
 "artForms": [
 {
 "name": "Assamese Scroll",
@@ -408,7 +395,7 @@ const stateArtData = {
 "intro": "An ancient land of Mithila where women paint sacred stories of nature and divinity on mud-plastered walls.",
 "summary": "Bihar boasts the world-renowned Madhubani painting, created by rural women in the Mithila region. Using paste of powdered rice, natural dyes, and fingers or twigs, this art forms a vibrant language.",
 "yearsOfHeritage": "2500+",
-"patternImg": "pics/madhubani_pattern_1778230275283.png",
+"patternImg": "/pics/madhubani_pattern_1778230275283.png",
 "artForms": [
 {
 "name": "Madhubani Painting",
@@ -456,7 +443,7 @@ const stateArtData = {
 "intro": "Body ink stories of natural spirits and folklore painted onto hand-woven fabrics.",
 "summary": "Chhattisgarh is the home of Godna art, a body-tattoo tradition adapted onto textiles. Painted using wooden styluses and forest colors, it documents tribal life.",
 "yearsOfHeritage": "700+",
-"patternImg": "pics/gond_pattern_1778230315090.png",
+"patternImg": "/pics/gond_pattern_1778230315090.png",
 "artForms": [
 {
 "name": "Godna Art",
@@ -497,7 +484,7 @@ const stateArtData = {
 "intro": "Red clay temple sgraffitos etched out of white lime walls with steel styluses.",
 "summary": "Goa holds Kaavi art, a coastal temple sgraffito tradition. Etched out of wet red clay oxide coats to reveal white lime layers, it portrays mythological epics on temple walls.",
 "yearsOfHeritage": "400+",
-"patternImg": "pics/kaavi_pattern_1778230487430.png",
+"patternImg": "/pics/kaavi_pattern_1778230487430.png",
 "artForms": [
 {
 "name": "Kaavi Art",
@@ -538,7 +525,7 @@ const stateArtData = {
 "intro": "A colorful fusion of ritualistic Pithora clay murals and the rare, castor oil-based Rogan textile art.",
 "summary": "Gujarat boasts rich heritage arts like Rogan painting and Pithora art. These traditions reflect the desert communities' resourcefulness.",
 "yearsOfHeritage": "1000+",
-"patternImg": "pics/pithora_pattern_1778230468406.png",
+"patternImg": "/pics/pithora_pattern_1778230468406.png",
 "artForms": [
 {
 "name": "Rogan Painting",
@@ -602,7 +589,7 @@ const stateArtData = {
 "intro": "Clay figurines and slip-painted pots tracing their lineage to Harappan wheel techniques.",
 "summary": "Haryana maintains Harappan-style clay pottery. Fired in local ground kilns and slip-painted in black and white clay washes, these terracotta pieces trace back to Indus Valley traditions.",
 "yearsOfHeritage": "4000+",
-"patternImg": "pics/phulkari_pattern_1778230389596.png",
+"patternImg": "/pics/phulkari_pattern_1778230389596.png",
 "artForms": [
 {
 "name": "Pottery & Weaving",
@@ -643,7 +630,7 @@ const stateArtData = {
 "intro": "Miniature portraits of Himalayan hill kingdoms, painted with soft lines and pastel colors.",
 "summary": "Himachal Pradesh is the home of Pahari miniature painting. Flourishing in Kangra and Chamba, it is admired for its delicate lines, pastel colors, and illustrations of Sanskrit romantic poetry.",
 "yearsOfHeritage": "400+",
-"patternImg": "pics/thangka_pattern_1778230438584.png",
+"patternImg": "/pics/thangka_pattern_1778230438584.png",
 "artForms": [
 {
 "name": "Pahari Painting",
@@ -684,7 +671,7 @@ const stateArtData = {
 "intro": "Bold primary colors and beetle-wing emerald settings detailing Pahari royalty.",
 "summary": "Jammu & Kashmir is home to Basohli painting, the oldest Pahari miniature school. It is celebrated for its warm primary tones, expressive eyes, and real beetle wings that mimic emerald jewels.",
 "yearsOfHeritage": "500+",
-"patternImg": "pics/thangka_pattern_1778230438584.png",
+"patternImg": "/pics/thangka_pattern_1778230438584.png",
 "artForms": [
 {
 "name": "Basohli Painting",
@@ -725,7 +712,7 @@ const stateArtData = {
 "intro": "A festive mud mural tradition celebrating harvest fertility and forest animals.",
 "summary": "Jharkhand preserves Sohrai painting, a ritualistic matriarchal mural art. Practiced by women at harvest times, it covers house entrances in clay slip designs of birds, trees, and cattle.",
 "yearsOfHeritage": "600+",
-"patternImg": "pics/madhubani_pattern_1778230275283.png",
+"patternImg": "/pics/madhubani_pattern_1778230275283.png",
 "artForms": [
 {
 "name": "Sohrai Painting",
@@ -766,7 +753,7 @@ const stateArtData = {
 "intro": "Delicate royal portraits and deities embellished with thin gold foil and fine details.",
 "summary": "Karnataka holds the legacy of Mysore painting, a classical South Indian style that flourished under royal Wodeyar patronage. It is known for its delicate gesso work and soft, graceful colors.",
 "yearsOfHeritage": "800+",
-"patternImg": "pics/tanjore_gold_pattern_1778230407842.png",
+"patternImg": "/pics/tanjore_gold_pattern_1778230407842.png",
 "artForms": [
 {
 "name": "Mysore Painting",
@@ -807,7 +794,7 @@ const stateArtData = {
 "intro": "A magnificent temple fresco tradition painted with warm, earthy ochre pigments.",
 "summary": "Kerala Mural painting is a classical fresco art form dating back to the 7th century. Primarily found on temple walls, it features stylized deities depicted in warm tones.",
 "yearsOfHeritage": "1300+",
-"patternImg": "pics/kalamkari_pattern_1778230370773.png",
+"patternImg": "/pics/kalamkari_pattern_1778230370773.png",
 "artForms": [
 {
 "name": "Kerala Mural Art",
@@ -855,7 +842,7 @@ const stateArtData = {
 "intro": "Sacred scrolls of monasteries, hand-painted on silk using gold leaf and stone pigments.",
 "summary": "Ladakh preserves Thangka painting, a sacred Buddhist scroll art. Painted with extreme geometric precision using ground minerals and pure gold dust, it serves as a visual guide for meditation.",
 "yearsOfHeritage": "1000+",
-"patternImg": "pics/thangka_pattern_1778230438584.png",
+"patternImg": "/pics/thangka_pattern_1778230438584.png",
 "artForms": [
 {
 "name": "Thangka Art",
@@ -896,7 +883,7 @@ const stateArtData = {
 "intro": "An intricate jungle folklore of dots and lines tracing the forest spirits of the Gond tribe.",
 "summary": "Madhya Pradesh is the homeland of Gond art, a tribal painting style defined by rhythmic dots, dashes, and vibrant lines. It visualizes the Gonds' sacred connection to nature.",
 "yearsOfHeritage": "1400+",
-"patternImg": "pics/gond_pattern_1778230315090.png",
+"patternImg": "/pics/gond_pattern_1778230315090.png",
 "artForms": [
 {
 "name": "Gond Art",
@@ -944,7 +931,7 @@ const stateArtData = {
 "intro": "A rustic dance of circular, triangular, and square symbols depicting Sahyadri tribal life.",
 "summary": "Maharashtra is home to Warli painting, a minimalist tribal art representing nature's harmony. Painted on mud walls with simple white rice paste, its concentric geometric structures mimic community dances.",
 "yearsOfHeritage": "1000+",
-"patternImg": "pics/warli_pattern_1778230295803.png",
+"patternImg": "/pics/warli_pattern_1778230295803.png",
 "artForms": [
 {
 "name": "Warli Painting",
@@ -985,7 +972,7 @@ const stateArtData = {
 "intro": "Serpentine rock and black clay pottery shaped by hand and polished with stones.",
 "summary": "Manipur preserves Longpi black pottery. Made without a wheel by mixing serpentine stone and clay, these pieces are polished using river stones and fired in open wood pits.",
 "yearsOfHeritage": "800+",
-"patternImg": "pics/phulkari_pattern_1778230389596.png",
+"patternImg": "/pics/phulkari_pattern_1778230389596.png",
 "artForms": [
 {
 "name": "Meitei Art",
@@ -1026,7 +1013,7 @@ const stateArtData = {
 "intro": "A sacred scroll tradition of Lord Jagannath painted with fine details on treated cloth.",
 "summary": "Odisha is famous for Pattachitra, a structured and narrative scroll painting style. Closely linked with the Jagannath temple cult, it features mythological themes painted on layered cloth canvas.",
 "yearsOfHeritage": "1200+",
-"patternImg": "pics/pattachitra_pattern_1778230348344.png",
+"patternImg": "/pics/pattachitra_pattern_1778230348344.png",
 "artForms": [
 {
 "name": "Pattachitra",
@@ -1074,7 +1061,7 @@ const stateArtData = {
 "intro": "Untwisted silk thread flowers hand-embroidered onto coarse cotton wedding shawls.",
 "summary": "Punjab is the home of Phulkari, which means 'flower work'. Woven using untwisted silk floss on hand-spun khadi cloth, these embroideries were historically crafted by mothers as heirlooms.",
 "yearsOfHeritage": "600+",
-"patternImg": "pics/phulkari_pattern_1778230389596.png",
+"patternImg": "/pics/phulkari_pattern_1778230389596.png",
 "artForms": [
 {
 "name": "Phulkari",
@@ -1115,7 +1102,7 @@ const stateArtData = {
 "intro": "A golden desert canvas where epic folk tales are sung on scrolls and royal legacies are painted in miniature details.",
 "summary": "Rajasthan holds a rich tapestry of history, where vibrant colors stand in stark contrast to the golden sand dunes. Its art traditions range from massive phad scrolls representing folk deities, to fine, royal miniature paintings, each showcasing meticulous skill and deep cultural roots.",
 "yearsOfHeritage": "1500+",
-"patternImg": "pics/pithora_pattern_1778230468406.png",
+"patternImg": "/pics/pithora_pattern_1778230468406.png",
 "artForms": [
 {
 "name": "Phad Painting",
@@ -1179,7 +1166,7 @@ const stateArtData = {
 "intro": "Himalayan Buddhist mandalas painted with strict geometric rules and mineral dust.",
 "summary": "Sikkim preserves Thangka scroll painting in monastic centers. Following strict iconographic manuals, the art is painted on cotton base using gold dust.",
 "yearsOfHeritage": "600+",
-"patternImg": "pics/thangka_pattern_1778230438584.png",
+"patternImg": "/pics/thangka_pattern_1778230438584.png",
 "artForms": [
 {
 "name": "Thangka",
@@ -1220,7 +1207,7 @@ const stateArtData = {
 "intro": "A sacred sanctuary of classical grandeur where gold-embossed deities radiate eternal grace.",
 "summary": "Tamil Nadu is home to Tanjore painting, a classical South Indian style that flourished in the Maratha court of Thanjavur. Renowned for its rich colors, gold leaf embossment, and semi-precious stone embellishments, it brings sacred iconography to life.",
 "yearsOfHeritage": "1000+",
-"patternImg": "pics/tanjore_gold_pattern_1778230407842.png",
+"patternImg": "/pics/tanjore_gold_pattern_1778230407842.png",
 "artForms": [
 {
 "name": "Tanjore Painting",
@@ -1268,7 +1255,7 @@ const stateArtData = {
 "intro": "Narrative Nakashi legends painted on long scrolls of cloth, singing folk tales to village communities.",
 "summary": "Telangana is home to Cheriyal Scroll paintings, a stylized version of Nakashi art. Once carried by storytellers across the Deccan hills, these paintings present Hindu lore in bright primary colors.",
 "yearsOfHeritage": "500+",
-"patternImg": "pics/kalamkari_pattern_1778230370773.png",
+"patternImg": "/pics/kalamkari_pattern_1778230370773.png",
 "artForms": [
 {
 "name": "Cheriyal Scroll Painting",
@@ -1309,7 +1296,7 @@ const stateArtData = {
 "intro": "Fine bamboo strips woven into sustainable household artifacts and wall murals.",
 "summary": "Tripura holds a rich heritage of bamboo and cane weaving. Split into paper-thin strips by hand, the local bamboo is woven into intricate sculptures and eco-friendly home artifacts.",
 "yearsOfHeritage": "800+",
-"patternImg": "pics/phulkari_pattern_1778230389596.png",
+"patternImg": "/pics/phulkari_pattern_1778230389596.png",
 "artForms": [
 {
 "name": "Bamboo & Cane Art",
@@ -1350,7 +1337,7 @@ const stateArtData = {
 "intro": "Vrindavan stencils of Lord Krishna's plays etched out of paper with fine scissors.",
 "summary": "Uttar Pradesh holds Sanjhi art, the ancient craft of paper-cutting stencils. Originating in Mathura, these stencils are used by artists to paint floating devotional patterns on water surfaces.",
 "yearsOfHeritage": "900+",
-"patternImg": "pics/aipan_pattern_uttarakhand_1778230515155.png",
+"patternImg": "/pics/aipan_pattern_uttarakhand_1778230515155.png",
 "artForms": [
 {
 "name": "Sanjhi Art",
@@ -1391,7 +1378,7 @@ const stateArtData = {
 "intro": "A sacred geometric threshold art drawn with rice paste on a rich red mud base.",
 "summary": "Uttarakhand is home to Aipan, a ritualistic folk art traditionally drawn by Kumaoni women at house thresholds. Using a deep red mud paste (Geru) as a base and white rice paste (Biswar) for lines, it creates sacred geometric configurations.",
 "yearsOfHeritage": "800+",
-"patternImg": "pics/aipan_pattern_uttarakhand_1778230515155.png",
+"patternImg": "/pics/aipan_pattern_uttarakhand_1778230515155.png",
 "artForms": [
 {
 "name": "Aipan Art",
@@ -1439,7 +1426,7 @@ const stateArtData = {
 "intro": "A satirical folk chronicle of urban life and divinity painted with bold, sweeping strokes.",
 "summary": "West Bengal is famous for Kalighat painting, which originated around the Kalighat temple in Kolkata. Characterized by bold lines and quick washes.",
 "yearsOfHeritage": "200+",
-"patternImg": "pics/pattachitra_pattern_1778230348344.png",
+"patternImg": "/pics/pattachitra_pattern_1778230348344.png",
 "artForms": [
 {
 "name": "Kalighat Art",
@@ -1487,7 +1474,7 @@ const stateArtData = {
 "intro": "Matriarchal silk weaver legends spun from local Eri cocoons, dyed in forest-grown vegetable hues.",
 "summary": "Meghalaya preserves Eri silk weaving (Ryndia), a sustainable matriarchal craft. Colored with turmeric and forest leaves, these organic cloths are hand-woven into beautiful warm wraps.",
 "yearsOfHeritage": "1000+",
-"patternImg": "pics/phulkari_pattern_1778230389596.png",
+"patternImg": "/pics/phulkari_pattern_1778230389596.png",
 "artForms": [
 {
 "name": "Eri Silk Weaving",
@@ -1528,7 +1515,7 @@ const stateArtData = {
 "intro": "Geometric cotton tapestries woven on loin looms, detailing clan stories in colorful stripes.",
 "summary": "Mizoram is famous for Puan weaving, a backstrap-loom textile craft. Every design indicates clan membership and status, using vibrant red, black, and white threads.",
 "yearsOfHeritage": "800+",
-"patternImg": "pics/phulkari_pattern_1778230389596.png",
+"patternImg": "/pics/phulkari_pattern_1778230389596.png",
 "artForms": [
 {
 "name": "Puan Weaving",
@@ -1569,7 +1556,7 @@ const stateArtData = {
 "intro": "A modern sanctuary of recycled sculpture and colorful Phulkari craft.",
 "summary": "Chandigarh showcases the world-famous Rock Garden recycling art started by Nek Chand, along with traditional Punjabi Phulkari embroidery.",
 "yearsOfHeritage": "70+",
-"patternImg": "pics/phulkari_pattern_1778230389596.png",
+"patternImg": "/pics/phulkari_pattern_1778230389596.png",
 "artForms": [
 {
 "name": "Rock Garden Sculpture",
@@ -1610,7 +1597,7 @@ const stateArtData = {
 "intro": "Coastal Warli mud paintings celebrating nature's cycle on simple clay-plastered walls.",
 "summary": "Dadra & Nagar Haveli shares the Warli tribal art legacy, where rural artisans paint geometric silhouettes of suns, circles, and social tarpa dances.",
 "yearsOfHeritage": "1000+",
-"patternImg": "pics/warli_pattern_1778230295803.png",
+"patternImg": "/pics/warli_pattern_1778230295803.png",
 "artForms": [
 {
 "name": "Warli Tribal Painting",
@@ -1651,7 +1638,7 @@ const stateArtData = {
 "intro": "Marine-inspired shell engravings and fine cane weaves crafted by island artisans.",
 "summary": "The Andaman & Nicobar Islands are celebrated for sea-shell carvings and cane weaving. Local craft guilds make beautiful ornaments from mother-of-pearl and polished coconuts.",
 "yearsOfHeritage": "800+",
-"patternImg": "pics/phulkari_pattern_1778230389596.png",
+"patternImg": "/pics/phulkari_pattern_1778230389596.png",
 "artForms": [
 {
 "name": "Sea Shell Crafting",
@@ -1692,7 +1679,7 @@ const stateArtData = {
 "intro": "Island coir spinning and coral-inspired wood carvings crafted by coastal guilds.",
 "summary": "Lakshadweep boasts traditional coir crafts and shell work. Spinners weave coconut husks into durable mats and cords, inspired by the surrounding coral reef ecology.",
 "yearsOfHeritage": "500+",
-"patternImg": "pics/kalamkari_pattern_1778230370773.png",
+"patternImg": "/pics/kalamkari_pattern_1778230370773.png",
 "artForms": [
 {
 "name": "Coir and Coral Crafts",
@@ -1733,7 +1720,7 @@ const stateArtData = {
 "intro": "Vibrantly slip-painted clay deities and temple horses guarding village boundaries.",
 "summary": "Puducherry holds the GI-tagged Villianur terracotta tradition. Fired in local earthen kilns and painted in bright colors, these clay figures range from toys to giant temple guardian horses.",
 "yearsOfHeritage": "1000+",
-"patternImg": "pics/kalamkari_pattern_1778230370773.png",
+"patternImg": "/pics/kalamkari_pattern_1778230370773.png",
 "artForms": [
 {
 "name": "Terracotta Art",
@@ -1774,7 +1761,7 @@ const stateArtData = {
 "intro": "Wasli-paper court miniatures drawn with single-hair squirrel tail brushes.",
 "summary": "Delhi preserves Mughal miniature painting. Executed on layered Wasli paper with single-hair brushes and pure gold leaf, it illustrates historical court events.",
 "yearsOfHeritage": "400+",
-"patternImg": "pics/tanjore_gold_pattern_1778230407842.png",
+"patternImg": "/pics/tanjore_gold_pattern_1778230407842.png",
 "artForms": [
 {
 "name": "Mughal Miniature",

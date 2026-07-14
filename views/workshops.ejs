@@ -14,11 +14,7 @@ rel="stylesheet" />
 <script src="components/Navbar.js" defer></script>
 <script src="components/Sidebar.js" defer></script>
 <script>
-(function checkArtistAuth() {
-if (localStorage.getItem('artistLoggedIn') !== 'true') {
-window.location.href = '/?error=auth';
-}
-})();
+
 </script>
 <style>
 :root {
@@ -83,12 +79,12 @@ animation: zoomIn 0.5s ease-out forwards;
 }
 </style>
 </head>
-<body class="min-h-screen flex flex-col overflow-hidden">
+<body class="min-h-[100dvh] flex flex-col bg-surface">
 <app-navbar></app-navbar>
-<div id="dashboard-layout-wrapper" class="flex flex-1 overflow-hidden">
+<div id="dashboard-layout-wrapper" class="flex flex-1">
 <div class="ink-grain"></div>
 <dashboard-sidebar type="artist"></dashboard-sidebar>
-<main class="flex-1 flex flex-col h-screen overflow-y-auto custom-scrollbar relative">
+<main class="flex-1 flex flex-col relative custom-scrollbar">
 <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-stone-100 px-8 py-4 flex justify-between items-center">
 <div class="flex items-center gap-4">
 <button class="mobile-menu-btn-toggle lg:hidden text-stone-900 p-2 flex items-center justify-center mr-2">
@@ -103,7 +99,7 @@ animation: zoomIn 0.5s ease-out forwards;
 </header>
 <div class="p-8 space-y-12 max-w-7xl mx-auto w-full">
 <section class="relative rounded-3xl overflow-hidden aspect-[21/9] flex items-center text-white">
-<img src="pics/madhubani_pattern_1778230275283.png"
+<img src="/pics/madhubani_pattern_1778230275283.png"
 class="absolute inset-0 w-full h-full object-cover brightness-50" alt="Hero">
 <div class="relative z-10 p-12 max-w-xl">
 <span
@@ -133,7 +129,7 @@ class="bg-stone-50 border-stone-100 rounded text-xs font-bold uppercase tracking
 <div
 class="warli-border group rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all animate-zoom-in">
 <div class="h-48 overflow-hidden relative">
-<img src="pics/warli_pattern_1778230295803.png"
+<img src="/pics/warli_pattern_1778230295803.png"
 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
 alt="Workshop">
 <div
@@ -161,7 +157,7 @@ Now</button>
 <div class="warli-border group rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all animate-zoom-in"
 style="animation-delay: 0.1s;">
 <div class="h-48 overflow-hidden relative">
-<img src="pics/kalamkari_pattern_1778230370773.png"
+<img src="/pics/kalamkari_pattern_1778230370773.png"
 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
 alt="Workshop">
 <div
@@ -189,7 +185,7 @@ Waitlist</button>
 <div class="warli-border group rounded-2xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all animate-zoom-in"
 style="animation-delay: 0.2s;">
 <div class="h-48 overflow-hidden relative">
-<img src="pics/gond_pattern_1778230315090.png"
+<img src="/pics/gond_pattern_1778230315090.png"
 class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
 alt="Workshop">
 <div

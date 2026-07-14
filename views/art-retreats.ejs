@@ -6,7 +6,7 @@
 <title>Art Retreats | The Painted Muse</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="components/Navbar.js" defer></script>
-<script src="components/Footer.js" defer></script>
+
 <link
 href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Outfit:wght@400;500;700&display=swap"
 rel="stylesheet" />
@@ -77,21 +77,8 @@ transform: translateY(0);
 }
 
 
-footer {
-background: #FDFBF7;
-color: var(--ink);
-padding: 100px 0 40px;
-position: relative;
-}
-footer::before {
-content: '';
-position: absolute;
-top: 0;
-left: 0;
-right: 0;
-height: 1px;
-background: linear-gradient(90deg, transparent, var(--terracotta), transparent);
-}
+
+
 .foot-top {
 display: grid;
 grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
@@ -208,7 +195,7 @@ Discover upcoming creative gatherings and explore glimpses into our past immersi
 <div class="container mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 <div class="lg:col-span-7 reveal">
 <div class="relative">
-<img src="pics/dharamkot_studio.png" class="retreat-image-frame" alt="Dharamkot Studio">
+<img src="/pics/dharamkot_studio.png" class="retreat-image-frame" alt="Dharamkot Studio">
 <div
 class="absolute -bottom-10 -right-10 glass p-8 rounded-2xl hidden lg:block max-w-xs shadow-2xl">
 <p class="serif italic text-lg text-[#B5451B]">"The clay listens to your heartbeat."</p>
@@ -295,7 +282,7 @@ Your Seat →</a>
 </div>
 <div class="lg:col-span-7 order-1 lg:order-2 reveal">
 <div class="relative">
-<img src="pics/andretta_pottery.png" class="retreat-image-frame" alt="Andretta Pottery">
+<img src="/pics/andretta_pottery.png" class="retreat-image-frame" alt="Andretta Pottery">
 <div class="absolute -top-10 -left-10 glass p-8 rounded-2xl hidden lg:block max-w-xs shadow-2xl">
 <p class="serif italic text-lg text-[#B5451B]">"Crafting legacy since 1983."</p>
 </div>
@@ -307,7 +294,7 @@ Your Seat →</a>
 <div class="container mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 <div class="lg:col-span-7 reveal">
 <div class="relative">
-<img src="pics/art_junction_udaipur.png" class="retreat-image-frame" alt="Art Junction">
+<img src="/pics/art_junction_udaipur.png" class="retreat-image-frame" alt="Art Junction">
 </div>
 </div>
 <div class="lg:col-span-5 reveal">
@@ -389,14 +376,14 @@ class="inline-block bg-black text-white px-10 py-5 rounded-full font-bold text-x
 the Heritage Village →</a>
 </div>
 <div class="lg:col-span-7 order-1 lg:order-2 reveal">
-<img src="pics/raghurajpur_village.png" class="retreat-image-frame" alt="Raghurajpur">
+<img src="/pics/raghurajpur_village.png" class="retreat-image-frame" alt="Raghurajpur">
 </div>
 </div>
 </section>
 <section id="aura" class="retreat-section">
 <div class="container mx-auto px-6 md:px-12 grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
 <div class="lg:col-span-7 reveal">
-<img src="pics/aura_pottery.png" class="retreat-image-frame" alt="Aura Pottery">
+<img src="/pics/aura_pottery.png" class="retreat-image-frame" alt="Aura Pottery">
 </div>
 <div class="lg:col-span-5 reveal">
 <span class="section-tag">Chandigarh</span>
@@ -477,12 +464,12 @@ class="inline-block bg-[#D4AF37] text-black px-10 py-5 rounded-full font-bold te
 the Waitlist →</a>
 </div>
 <div class="lg:col-span-7 order-1 lg:order-2 reveal">
-<img src="pics/tree_of_life.png" class="retreat-image-frame"
+<img src="/pics/tree_of_life.png" class="retreat-image-frame"
 style="box-shadow: 0 30px 60px rgba(212, 175, 55, 0.1);" alt="Tree of Life">
 </div>
 </div>
 </section>
-<app-footer></app-footer>
+
 <script>
 function bookEvent(price, eventName) {
   const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';

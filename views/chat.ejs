@@ -63,14 +63,14 @@ body {
       </button>
       <div class="flex items-center gap-3">
         <div class="w-10 h-10 rounded-full overflow-hidden border border-stone-200">
-          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=200" alt="Avatar" class="w-full h-full object-cover">
+          <img id="partner-pic" src="https://api.dicebear.com/7.x/avataaars/svg?seed=loading" alt="Avatar" class="w-full h-full object-cover">
         </div>
         <div>
-          <h3 id="artist-name" class="font-bold text-base flex items-center gap-2">
+          <h3 id="partner-name" class="font-bold text-base flex items-center gap-2">
             Loading...
           </h3>
-          <p class="text-xs text-green-600 font-medium flex items-center gap-1">
-            <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Online
+          <p id="partner-status" class="text-xs text-stone-400 font-medium flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full bg-stone-300"></span> Offline
           </p>
         </div>
       </div>
@@ -110,14 +110,34 @@ if (!myId) {
 const urlParams = new URLSearchParams(window.location.search);
 const receiverId = urlParams.get('artistId') || urlParams.get('userId');
 
-document.addEventListener('DOMContentLoaded', () => {
-  const artistName = urlParams.get('artist');
-  if (artistName && document.getElementById('artist-name')) {
-    document.getElementById('artist-name').textContent = artistName;
-  } else {
-    document.getElementById('artist-name').textContent = "Artist";
+document.addEventListener('DOMContentLoaded', async () => {
+  if (receiverId) {
+    try {
+      const res = await fetch('/api/chat/partner/' + receiverId);
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('partner-name').textContent = data.partner.fullName;
+        document.getElementById('partner-pic').src = data.partner.profilePic;
+        updateStatusUI(data.partner.isOnline);
+      } else {
+        document.getElementById('partner-name').textContent = "Unknown User";
+      }
+    } catch(e) {
+      document.getElementById('partner-name').textContent = "Unknown User";
+    }
   }
 });
+
+function updateStatusUI(isOnline) {
+  const statusEl = document.getElementById('partner-status');
+  if (isOnline) {
+    statusEl.className = "text-xs text-green-600 font-medium flex items-center gap-1";
+    statusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span> Online`;
+  } else {
+    statusEl.className = "text-xs text-stone-400 font-medium flex items-center gap-1";
+    statusEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-stone-300"></span> Offline`;
+  }
+}
 
 // Auto-expand textarea
 const tx = document.getElementById('chat-input');
@@ -140,6 +160,15 @@ const socket = io();
 
 socket.on('newMessage', (msg) => {
   renderMessage(msg);
+  if (msg.senderId === receiverId) {
+    fetch('/api/chat/mark-read/' + receiverId, { method: 'POST' });
+  }
+});
+
+socket.on('userStatus', (data) => {
+  if (data.userId === receiverId) {
+    updateStatusUI(data.online);
+  }
 });
 
 let lastDateGroup = null;
@@ -218,6 +247,9 @@ if(receiverId) {
       if(data.success && data.messages.length > 0) {
          data.messages.forEach(renderMessage);
       }
+      
+      // Mark as read when opening chat
+      fetch('/api/chat/mark-read/' + receiverId, { method: 'POST' });
     });
 }
 

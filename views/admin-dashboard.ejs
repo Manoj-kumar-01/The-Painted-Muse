@@ -1405,7 +1405,7 @@ function rejectArtist(email) {
 
 function deleteArtist(email) {
     if (confirm(`Are you sure you want to delete the artist with email: ${email}?`)) {
-        fetch('/api/admin/artists/' + email, {
+        fetch('/api/admin/artists/' + encodeURIComponent(email), {
             method: 'DELETE'
         }).then(r => r.json()).then(data => {
             if(data.success) {
@@ -1414,13 +1414,16 @@ function deleteArtist(email) {
             } else {
                 alert(data.message || 'Error deleting artist');
             }
+        }).catch(err => {
+            console.error('Delete artist error:', err);
+            alert('Network or server error deleting artist');
         });
     }
 }
 
 function deleteUser(email) {
     if (confirm(`Are you sure you want to delete the user with email: ${email}?`)) {
-        fetch('/api/admin/users/' + email, {
+        fetch('/api/admin/users/' + encodeURIComponent(email), {
             method: 'DELETE'
         }).then(r => r.json()).then(data => {
             if(data.success) {
@@ -1429,6 +1432,9 @@ function deleteUser(email) {
             } else {
                 alert(data.message || 'Error deleting user');
             }
+        }).catch(err => {
+            console.error('Delete user error:', err);
+            alert('Network or server error deleting user');
         });
     }
 }
@@ -1926,7 +1932,7 @@ window.switchView = function(viewName) {
   <i data-lucide="check-circle" class="w-5 h-5"></i>
   <span id="cms-toast-text" class="font-medium text-sm">Changes saved & applied!</span>
 </div>
-<script src="/js/admin-dynamic.js"></script>
+<!-- dynamic script removed -->
 <script>
 // Sync CMS from backend on admin load so local storage reflects the truth
 document.addEventListener('DOMContentLoaded', () => {

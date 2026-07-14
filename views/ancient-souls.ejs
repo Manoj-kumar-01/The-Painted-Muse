@@ -7,7 +7,7 @@
     <title>Explore Art Retreats | The Painted Muse</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="/components/Navbar.js" defer></script>
-    <script src="/components/Footer.js" defer></script>
+    
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=DM+Sans:wght@400;500;700&display=swap"
         rel="stylesheet" />
@@ -51,22 +51,9 @@
             background-color: #F5F0E8;
         }
 
-        footer {
-            background: #FDFBF7;
-            color: var(--ink);
-            padding: 100px 0 40px;
-            position: relative;
-        }
+        
 
-        footer::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--saffron), transparent);
-        }
+        
 
         .foot-top {
             display: grid;
@@ -340,7 +327,7 @@
                 <div class="relative bg-white p-10 rounded-xl border border-stone-100 shadow-sm overflow-hidden group">
                     <div
                         class="absolute inset-0 z-0 opacity-[0.08] group-hover:opacity-[0.15] transition-opacity duration-500">
-                        <img src="pics/phulkari_art.png" class="w-full h-full object-cover" alt="">
+                        <img src="/pics/phulkari_art.png" class="w-full h-full object-cover" alt="">
                     </div>
                     <div class="relative z-10">
                         <h3 class="font-serif text-2xl text-[#B5451B] mb-4 italic">Traditional Form</h3>
@@ -355,7 +342,7 @@
                 <div class="relative bg-white p-10 rounded-xl border border-stone-100 shadow-sm overflow-hidden group">
                     <div
                         class="absolute inset-0 z-0 opacity-[0.08] group-hover:opacity-[0.15] transition-opacity duration-500">
-                        <img src="pics/phulkari_pattern_1778230389596.png" class="w-full h-full object-cover" alt="">
+                        <img src="/pics/phulkari_pattern_1778230389596.png" class="w-full h-full object-cover" alt="">
                     </div>
                     <div class="relative z-10">
                         <h3 class="font-serif text-2xl text-[#1A1208] mb-4 italic">Modern Form</h3>
@@ -370,7 +357,7 @@
             </div>
         </section>
     </main>
-    <app-footer></app-footer>
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const mobileMenuBtn = document.getElementById('mobile-menu-btn');

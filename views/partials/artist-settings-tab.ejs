@@ -1,0 +1,206 @@
+
+<div class="lg:hidden flex items-center bg-surface p-4 border-b border-outline-variant justify-between"><span
+class="material-symbols-outlined text-on-surface cursor-pointer mobile-menu-btn-toggle">menu</span>
+<h2 class="text-on-surface font-headline-md text-xl font-bold flex-1 text-center">Settings</h2>
+<div class="size-10"></div>
+</div>
+<div class="max-w-4xl mx-auto w-full px-6 md:px-10 py-12">
+<header class="mb-10">
+<h1 class="font-headline-lg text-on-background text-4xl mb-2">Settings</h1>
+<p class="font-body-lg text-on-surface-variant">Manage your artist profile, sales & account.</p>
+</header>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+<button onclick="showTab('profile')" id="btn-profile"
+class="tab-btn active flex items-center gap-4 p-6 rounded-xl border border-outline-variant bg-surface-container-lowest cursor-pointer hover:shadow-lg">
+<span class="material-symbols-outlined text-3xl">person</span>
+<div class="text-left">
+<h3 class="font-headline-md text-lg">Profile</h3>
+<p class="text-xs opacity-70">Edit your details</p>
+</div>
+</button>
+<button onclick="showTab('sales')" id="btn-sales"
+class="tab-btn flex items-center gap-4 p-6 rounded-xl border border-outline-variant bg-surface-container-lowest cursor-pointer hover:shadow-lg">
+<span class="material-symbols-outlined text-3xl">payments</span>
+<div class="text-left">
+<h3 class="font-headline-md text-lg">Sales</h3>
+<p class="text-xs opacity-70">Earnings & payouts</p>
+</div>
+</button>
+<button onclick="showTab('logout')" id="btn-logout"
+class="tab-btn flex items-center gap-4 p-6 rounded-xl border border-outline-variant bg-surface-container-lowest cursor-pointer hover:shadow-lg">
+<span class="material-symbols-outlined text-3xl">logout</span>
+<div class="text-left">
+<h3 class="font-headline-md text-lg">Logout</h3>
+<p class="text-xs opacity-70">Sign out safely</p>
+</div>
+</button>
+</div>
+<div id="panel-profile" class="section-panel active">
+<div class="bg-surface-container-low border border-outline-variant p-8 rounded-xl">
+<div class="flex flex-col sm:flex-row items-center gap-8 mb-10 pb-8 border-b border-outline-variant">
+<div class="relative group cursor-pointer" onclick="document.getElementById('inp-file').click()">
+<div class="size-32 bg-surface-dim overflow-hidden border-2 border-primary rounded-2xl">
+<img id="profile-img" class="w-full h-full object-cover"
+src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIabFTe2elbqNDvSbk_V1qjKt2ZR36xlywpoooykLRM06Bx4qgQMtA_vAVQSPwwIOlQhilO3I3l8qTaxOXZBaJidGkn3-qDuAE8QgQBclDYLggmIPpiMKuj7j5Voj5SbTZTiMSWc88Ak5_fNVoLePxkKFH1hNiBoN1iOvqCXi62Axu2ey4qr0CWLf9teyZ7OR95gBaPm-V66VskTaOTrceZh2kIT-RxkPEtPC3mzD6-4papLrP5Iwhng3fHAd2r3eIH_F3g5mbM60T" />
+</div>
+<div
+class="absolute inset-0 bg-black/40 rounded-2xl flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white text-3xl">photo_camera</span>
+</div>
+<input type="file" id="inp-file" accept="image/*" class="hidden" onchange="updateProfilePic(event)" />
+</div>
+<div class="text-center sm:text-left">
+<h3 id="profile-header-name" class="font-headline-md text-2xl text-on-surface mb-1">Amrita Raghavan</h3>
+<p id="profile-header-role" class="font-label-sm text-primary uppercase tracking-widest mb-2">Mithila
+(Madhubani) • Verified</p>
+<p class="text-sm text-on-surface-variant">Member since January 2023</p>
+<button onclick="document.getElementById('inp-file').click()"
+class="mt-3 text-sm text-primary font-bold uppercase tracking-widest hover:underline">Change
+Photo</button>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+<div class="flex flex-col gap-1"><label
+class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Full
+Name</label><input id="inp-full-name"
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md"
+value="Amrita Raghavan" type="text" /></div>
+<div class="flex flex-col gap-1"><label
+class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Display
+Name</label><input id="inp-display-name"
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md"
+value="Amrita R." type="text" /></div>
+<div class="flex flex-col gap-1"><label
+class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Email
+Address</label><input id="inp-email"
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md"
+value="amrita@paintedmuse.com" type="email" /></div>
+<div class="flex flex-col gap-1"><label
+class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Phone
+Number</label><input id="inp-phone"
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md"
+value="+91 98765 43210" type="tel" /></div>
+<div class="flex flex-col gap-1"><label
+class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Art
+Specialization</label><select id="inp-specialization"
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md appearance-none">
+<option selected value="Mithila (Madhubani)">Mithila (Madhubani)</option>
+<option value="Tanjore Painting">Tanjore Painting</option>
+<option value="Warli Art">Warli Art</option>
+<option value="Pattachitra">Pattachitra</option>
+</select></div>
+<div class="flex flex-col gap-1"><label
+class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">City,
+State</label><input id="inp-city-state"
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md"
+value="Madhubani, Bihar" type="text" /></div>
+</div>
+<div class="flex flex-col gap-1 mb-8"><label
+class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Artist
+Bio</label><textarea id="inp-bio"
+class="bg-transparent border border-outline-variant text-on-surface focus:border-primary focus:ring-0 p-4 font-body-md resize-none rounded-lg"
+rows="3">Award-winning Madhubani artist with 15+ years of experience bridging traditional Mithila storytelling with contemporary themes.</textarea>
+</div>
+<div class="hidden">
+<h3 class="font-label-sm text-on-surface uppercase tracking-widest mb-4 flex items-center gap-2"><span
+class="material-symbols-outlined text-primary text-lg">link</span>Profile Links</h3>
+<div class="flex flex-col gap-4 mb-8 pb-8 border-b border-outline-variant">
+<div id="links-container" class="flex flex-col gap-2">
+</div>
+<div class="flex flex-col sm:flex-row gap-4 mt-2">
+<div class="flex-1 flex flex-col gap-1">
+<label class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Link
+Title</label>
+<input id="new-link-title"
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md"
+placeholder="e.g. Portfolio, Instagram, Facebook" type="text" />
+</div>
+<div class="flex-1 flex flex-col gap-1">
+<label class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">URL</label>
+<input id="new-link-url"
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md"
+placeholder="https://example.com" type="url" />
+</div>
+<button onclick="addUrl()"
+class="sm:self-end h-10 px-6 bg-surface-container-highest text-on-surface font-body-md font-bold uppercase tracking-widest hover:bg-surface-container-high transition-all rounded-lg flex items-center gap-1"><span
+class="material-symbols-outlined text-lg">add</span>Add</button>
+</div>
+</div>
+</div>
+<div class="flex justify-end gap-4 items-center">
+<p id="save-feedback" class="text-green-700 font-bold text-sm opacity-0 transition-opacity">Saved
+successfully!</p>
+<button onclick="saveProfile()"
+class="h-12 px-10 bg-primary text-on-primary font-body-md font-bold uppercase tracking-widest hover:brightness-110 transition-all shadow-lg rounded-lg">Save
+Profile</button>
+</div>
+</div>
+</div>
+<div id="panel-sales" class="section-panel">
+<div class="bg-surface-container-low border border-outline-variant p-8 rounded-xl">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 pb-8 border-b border-outline-variant">
+<div class="bg-surface-container-lowest p-5 border border-outline-variant text-center rounded-xl">
+<p class="font-headline-md text-3xl text-primary mb-1">₹2.4L</p>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Total Earnings
+</p>
+</div>
+<div class="bg-surface-container-lowest p-5 border border-outline-variant text-center rounded-xl">
+<p class="font-headline-md text-3xl text-on-surface mb-1">34</p>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Artworks Sold</p>
+</div>
+<div class="bg-surface-container-lowest p-5 border border-outline-variant text-center rounded-xl">
+<p class="font-headline-md text-3xl text-on-surface mb-1">8</p>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Pending Orders
+</p>
+</div>
+<div class="bg-surface-container-lowest p-5 border border-outline-variant text-center rounded-xl">
+<p class="font-headline-md text-3xl text-on-surface mb-1">₹45K</p>
+<p class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">This Month</p>
+</div>
+</div>
+<h3 class="font-label-sm text-on-surface uppercase tracking-widest mb-4 flex items-center gap-2"><span
+class="material-symbols-outlined text-primary text-lg">account_balance</span>Bank / Payout Details</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div class="flex flex-col gap-1"><label
+class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Bank
+Name</label><input
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md"
+value="State Bank of India" type="text" /></div>
+<div class="flex flex-col gap-1"><label
+class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">Account
+Number</label><input
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md tracking-widest"
+value="•••• •••• •••• 7890" type="text" /></div>
+<div class="flex flex-col gap-1"><label
+class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">IFSC
+Code</label><input
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md"
+value="SBIN0001234" type="text" /></div>
+<div class="flex flex-col gap-1"><label
+class="font-label-sm text-on-surface-variant uppercase tracking-widest text-[10px]">UPI
+ID</label><input
+class="bg-transparent border-b border-outline text-on-surface focus:border-primary focus:ring-0 px-0 py-2 font-body-md"
+value="amrita@upi" type="text" /></div>
+</div>
+<div class="flex justify-end"><button
+class="h-12 px-10 bg-primary text-on-primary font-body-md font-bold uppercase tracking-widest hover:brightness-110 transition-all shadow-lg rounded-lg">Update
+Payout Info</button></div>
+</div>
+</div>
+<div id="panel-logout" class="section-panel">
+<div
+class="bg-surface-container-low border border-outline-variant p-10 rounded-xl text-center max-w-md mx-auto">
+<span class="material-symbols-outlined text-error text-6xl mb-4">logout</span>
+<h2 class="font-headline-md text-2xl text-on-surface mb-3">Sign Out?</h2>
+<p class="font-body-md text-on-surface-variant mb-8">You will be redirected to the homepage. Your data is
+safely saved.</p>
+<div class="flex flex-col gap-3">
+<button onclick="logout()"
+class="w-full h-14 bg-error text-on-error font-body-md font-bold uppercase tracking-widest hover:brightness-110 transition-all rounded-lg flex items-center justify-center gap-2"><span
+class="material-symbols-outlined">logout</span>Logout</button>
+<button onclick="showTab('profile')"
+class="w-full h-14 border border-outline-variant text-on-surface font-body-md font-bold uppercase tracking-widest hover:bg-surface-container-high transition-all rounded-lg">Cancel</button>
+</div>
+</div>
+</div>
+</div>

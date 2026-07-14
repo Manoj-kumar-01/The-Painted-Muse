@@ -8,7 +8,7 @@ content="Meet the legendary master artisans of India. Explore their stories, vie
 <title>Meet the Masters | The Painted Muse</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="components/Navbar.js" defer></script>
-<script src="components/Footer.js" defer></script>
+
 <link
 href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=Outfit:wght@400;500;700&display=swap"
 rel="stylesheet" />
@@ -118,21 +118,8 @@ display: none;
 scrollbar-width: none;
 }
 
-footer {
-background: #FDFBF7;
-color: var(--ink);
-padding: 100px 0 40px;
-position: relative;
-}
-footer::before {
-content: '';
-position: absolute;
-top: 0;
-left: 0;
-right: 0;
-height: 1px;
-background: linear-gradient(90deg, transparent, var(--saffron), transparent);
-}
+
+
 .foot-top {
 display: grid;
 grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr;
@@ -218,7 +205,7 @@ gap: 16px;
 <app-navbar></app-navbar>
 <header class="pt-32 pb-12 bg-[#F5F0E8] relative overflow-hidden">
 <div class="absolute inset-0 opacity-[0.05] pointer-events-none">
-<img src="pics/warli_pattern_1778230295803.png" class="w-full h-full object-cover" alt="pattern">
+<img src="/pics/warli_pattern_1778230295803.png" class="w-full h-full object-cover" alt="pattern">
 </div>
 <div class="container mx-auto px-6 relative z-10 text-center max-w-4xl">
 <div class="inline-block mb-6">
@@ -286,7 +273,7 @@ Explore more artists
 </div>
 </div>
 </main>
-<app-footer></app-footer>
+
 <script>
 let artistsData = [];
 
@@ -313,7 +300,7 @@ async function loadArtistsFromDB() {
                 }
                 
                 const specVal = artist.specialization || "Art";
-                const bgImg = "pics/madhubani_bg.png"; 
+                const bgImg = "/pics/madhubani_bg.png"; 
                 const profileImg = artist.profilePic || "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&q=80&w=150";
                 
                 return {

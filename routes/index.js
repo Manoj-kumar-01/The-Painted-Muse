@@ -110,6 +110,19 @@ router.post('/api/artworks', requireArtist, async (req, res) => {
     }
 });
 
+// Get all available artworks (public/user)
+router.get('/api/artworks', async (req, res) => {
+    try {
+        const artworks = await Artwork.find({ status: 'Available' })
+            .populate('artist', 'fullName profilePic')
+            .sort({ createdAt: -1 });
+        res.json({ success: true, artworks });
+    } catch (err) {
+        console.error('Fetch all artworks error:', err);
+        res.status(500).json({ success: false, message: 'Server Error' });
+    }
+});
+
 // Get artist's own artworks
 router.get('/api/artworks/me', requireArtist, async (req, res) => {
     try {
@@ -169,9 +182,11 @@ router.get('/user-signin', (req, res) => {
 
 // Protected User Routes
 router.get('/dashboard', requireUser, (req, res) => res.render('dashboard'));
+router.get('/dashboard-arts', requireUser, (req, res) => res.render('dashboard-arts'));
 router.get('/dashboard-artists', requireUser, (req, res) => res.render('dashboard-artists'));
 router.get('/dashboard-commissions', requireUser, (req, res) => res.render('dashboard-commissions'));
 router.get('/dashboard-workshops', requireUser, (req, res) => res.render('dashboard-workshops'));
+router.get('/dashboard-messages', requireUser, (req, res) => res.render('dashboard-messages'));
 router.get('/artist-profile/:id', (req, res) => res.render('artist-profile', { artistId: req.params.id }));
 
 // Protected Artist Routes
@@ -180,6 +195,7 @@ router.get('/artist-gallery', requireArtist, (req, res) => res.render('artist-ga
 router.get('/artist-portfolio', requireArtist, (req, res) => res.render('artist-portfolio'));
 router.get('/artist-profile-preview', requireArtist, (req, res) => res.render('artist-profile-preview'));
 router.get('/artist-settings', requireArtist, (req, res) => res.render('artist-settings'));
+router.get('/artist-messages', requireArtist, (req, res) => res.render('artist-messages'));
 
 // Admin Routes (unprotected for now as per plan, can be updated later)
 router.get('/admin', (req, res) => res.redirect('/admin-dashboard'));

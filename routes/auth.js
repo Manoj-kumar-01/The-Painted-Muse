@@ -149,6 +149,31 @@ router.post('/artist-signin', async (req, res) => {
     }
 });
 
+// Update Artist Profile
+router.post('/artist/profile', async (req, res) => {
+    if (!req.session || !req.session.user || req.session.userType !== 'artist') {
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
+    }
+    try {
+        const { displayName, specialization, location, photoUrl } = req.body;
+        const updateData = {};
+        if (displayName) updateData.fullName = displayName;
+        if (specialization) updateData.specialization = specialization;
+        if (location) updateData.location = location;
+        if (photoUrl) updateData.profilePic = photoUrl;
+
+        await Artist.findByIdAndUpdate(req.session.user.id, updateData);
+        
+        // Also update session
+        if (displayName) req.session.user.fullName = displayName;
+        
+        res.json({ success: true });
+    } catch (err) {
+        console.error('Update artist profile error:', err);
+        res.status(500).json({ success: false, message: 'Server error' });
+    }
+});
+
 // Logout
 router.post('/logout', (req, res) => {
     req.session.destroy((err) => {

@@ -141,7 +141,7 @@ class AppNavbar extends HTMLElement {
       }" id="main-nav">
         <div class="flex items-center">
           <a href="/" class="flex items-center">
-            <img src="pics/logoo.png" alt="The Painted Muse Logo" class="h-12 md:h-16 w-auto object-contain" />
+            <img src="/pics/logoo.png" alt="The Painted Muse Logo" class="h-12 md:h-16 w-auto object-contain" />
           </a>
         </div>
         ${desktopNavLinks}
@@ -155,7 +155,7 @@ class AppNavbar extends HTMLElement {
 
       <div id="mobile-menu" class="fixed inset-0 z-[60] bg-white translate-x-full transition-transform duration-500 lg:hidden flex flex-col">
         <div class="flex justify-between items-center p-4 border-b border-stone-100">
-          <img src="pics/logoo.png" alt="The Painted Muse Logo" class="h-10 w-auto object-contain" />
+          <img src="/pics/logoo.png" alt="The Painted Muse Logo" class="h-10 w-auto object-contain" />
           <button id="close-menu-btn" class="text-stone-900 p-2">
             <span class="material-symbols-outlined text-3xl">close</span>
           </button>
@@ -204,7 +204,7 @@ class AppNavbar extends HTMLElement {
   static logoutArtist() {
     if (confirm('Sign out of your artist studio?')) {
       fetch('/auth/logout', { method: 'POST' })
-        .then(() => {
+        .finally(() => {
           localStorage.removeItem('artistLoggedIn');
           localStorage.removeItem('artistEmail');
           localStorage.removeItem('currentUser');
@@ -216,7 +216,7 @@ class AppNavbar extends HTMLElement {
   static logoutUser() {
     if (confirm('Sign out of your art collector account?')) {
       fetch('/auth/logout', { method: 'POST' })
-        .then(() => {
+        .finally(() => {
           localStorage.removeItem('userLoggedIn');
           localStorage.removeItem('userEmail');
           localStorage.removeItem('currentUser');

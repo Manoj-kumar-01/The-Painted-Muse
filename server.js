@@ -82,11 +82,31 @@ mongoose.connection.once('open', async () => {
 // Socket.IO Logic
 const Message = require('./models/Message');
 
+const onlineUsers = new Map();
+app.locals.onlineUsers = onlineUsers;
+
 io.on('connection', (socket) => {
     const session = socket.request.session;
     if (session && session.user) {
-        socket.join(session.user.id);
+        const userId = session.user.id;
+        socket.join(userId);
         
+        const count = onlineUsers.get(userId) || 0;
+        onlineUsers.set(userId, count + 1);
+        if (count === 0) {
+            io.emit('userStatus', { userId, online: true });
+        }
+        
+        socket.on('disconnect', () => {
+            const currentCount = onlineUsers.get(userId) || 0;
+            if (currentCount <= 1) {
+                onlineUsers.delete(userId);
+                io.emit('userStatus', { userId, online: false });
+            } else {
+                onlineUsers.set(userId, currentCount - 1);
+            }
+        });
+
         socket.on('sendMessage', async (data) => {
             try {
                 const { receiverId, content } = data;

@@ -7,6 +7,10 @@ const artistSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+    profilePic: {
+        type: String,
+        default: ''
+    },
     email: {
         type: String,
         required: true,
