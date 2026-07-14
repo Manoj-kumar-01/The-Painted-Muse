@@ -5,19 +5,24 @@
 class DashboardNavbar extends HTMLElement {
   connectedCallback() {
     const type = this.getAttribute('type') || 'user';
-    const currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
-    
-    // Auth Check
-    if (type === 'artist' && localStorage.getItem('artistLoggedIn') !== 'true') {
-      window.location.href = '/signin';
-      return;
-    }
-    if (type === 'user' && localStorage.getItem('userLoggedIn') !== 'true') {
-      window.location.href = '/user-signin';
-      return;
-    }
-
+    let currentUser = JSON.parse(localStorage.getItem('currentUser') || '{}');
     const currentPath = window.location.pathname.split('/').pop() || '';
+
+    // Silent Session Sync: Restore client state if missing
+    if (!currentUser.fullName) {
+      fetch('/auth/status').then(res => res.json()).then(data => {
+        if (data.loggedIn && data.user) {
+          localStorage.setItem('currentUser', JSON.stringify(data.user));
+          if (data.userType === 'artist') {
+            localStorage.setItem('artistLoggedIn', 'true');
+          } else {
+            localStorage.setItem('userLoggedIn', 'true');
+          }
+          // Only reload if the profile name was just 'Artist' or 'Collector' and we now have the real name
+          window.location.reload();
+        }
+      }).catch(() => {});
+    }
 
     // Artist Active States
     const isArtistOverview = currentPath.includes('artist-home');
